@@ -1,13 +1,133 @@
 @import 'tailwindcss';
+@import './design/tokens.css';
 
-@theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-}
+/* Tailwind utilities read the theme-aware tokens, so `bg-surface` etc. follow light/dark. */
+@theme inline {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-:root {
-  color-scheme: light;
+  --color-canvas: var(--eb-canvas);
+  --color-surface: var(--eb-surface);
+  --color-surface-sunken: var(--eb-surface-sunken);
+  --color-ink: var(--eb-ink);
+  --color-muted: var(--eb-muted);
+  --color-line: var(--eb-line);
+  --color-line-strong: var(--eb-line-strong);
+  --color-brand: var(--eb-brand);
+  --color-brand-hover: var(--eb-brand-hover);
+  --color-brand-soft: var(--eb-brand-soft);
+  --color-on-brand: var(--eb-on-brand);
+  --color-brand-2: var(--eb-brand-2);
+  --color-spark: var(--eb-spark);
+  --color-supported: var(--eb-supported);
+  --color-supported-soft: var(--eb-supported-soft);
+  --color-partial: var(--eb-partial);
+  --color-partial-soft: var(--eb-partial-soft);
+  --color-conflicting: var(--eb-conflicting);
+  --color-conflicting-soft: var(--eb-conflicting-soft);
+  --color-unverified: var(--eb-unverified);
+  --color-unverified-soft: var(--eb-unverified-soft);
+  --color-demo: var(--eb-demo);
+  --color-demo-soft: var(--eb-demo-soft);
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+  --shadow-float: var(--eb-shadow);
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  background: var(--eb-canvas);
+  color: var(--eb-ink);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Visible keyboard focus everywhere (NFR-09). */
+:focus-visible {
+  outline: 2px solid var(--eb-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--eb-brand-soft);
+}
+
+/* Brand gradient — wordmark, landing hero and readiness fills only (ux-plan §4.1). */
+.eb-gradient-text {
+  background: linear-gradient(90deg, var(--eb-brand), var(--eb-brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.eb-gradient-fill {
+  background: linear-gradient(90deg, var(--eb-brand), var(--eb-brand-2));
+}
+
+/* Skeleton shimmer — the only looping motion in the app; off with reduced motion. */
+@keyframes eb-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.eb-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--eb-surface-sunken) 25%,
+    var(--eb-line) 50%,
+    var(--eb-surface-sunken) 75%
+  );
+  background-size: 200% 100%;
+  animation: eb-shimmer 1.4s linear infinite;
+}
+
+/* Evidence rows the user just cited flash once. */
+@keyframes eb-cite-flash {
+  from {
+    background-color: var(--eb-brand-soft);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.cite-flash {
+  animation: eb-cite-flash 1.2s var(--ease-standard);
+}
+
+/* Entrances answer a user action (dialog, toast, new row) — 160ms. */
+@keyframes eb-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.eb-enter {
+  animation: eb-enter 160ms var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

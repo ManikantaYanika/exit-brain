@@ -58,6 +58,20 @@
 
 ---
 
+## Day 1.5 — Clickable prototype (added 15 Oct 2026)
+
+**Decision:** before wiring real data, build every screen once inside `apps/web` behind the `ExitBrainApi` interface with an in-memory **MOCK DATA** adapter (`src/data/mockApi.ts`). Days 2–6 replace the adapter, not the screens. Reason: validate the flow with 3–5 engineering managers this week; demand is the biggest risk.
+
+**Scope:** manager dashboard (S4), knowledge review (S7), answers + verification, handover document (S9), employee interview with follow-ups (S8), successor checklist + cited assistant (S10), workspace setup (S2). Persona switcher for demos. AI steps are transparent heuristics, labelled as simulated.
+
+**DoD**
+- [x] All screens reachable per persona; MOCK DATA notice on every page.
+- [x] Vitest: mock adapter rules + key flows (confirm item, vague answer → follow-up, successor gated until approval, assistant refusal + escalation).
+- [x] Single-file build (`npm run build:prototype`) for sharing as an Artifact.
+- [ ] Shown to ≥ 3 engineering managers; feedback logged via `exit-brain-customer-discovery`.
+
+---
+
 ## Day 2 — GitHub App + ingestion
 
 **Objectives:** connect GitHub read-only, select repos, create transition, ingest evidence via resumable jobs.

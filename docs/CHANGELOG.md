@@ -19,3 +19,21 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Tests: pgTAP **62/62** (3 files), Deno **20/20**, `deno check` + `deno lint` clean. Not yet run against a live Supabase stack (`supabase test db` / `functions serve`).
 - CI (`.github/workflows/ci.yml`, all actions pinned): **web** (oxlint, prettier, typecheck, vitest, build, bundle secret scan), **functions** (deno fmt/lint/check/test), **database** (`supabase db start` + `supabase test db` on CLI 2.121.0, plus a gate failing if any `public` table lacks RLS), **secrets** (gitleaks 8.30.1, full history). Verified locally: bundle scanner flags a planted service_role JWT; RLS gate fails on a table without RLS; gitleaks clean (2 fake test keys allow-listed).
 - `supabase init` (CLI 2.121.0, Postgres 17): local auth hardened — Vite site URL, min password 8 + letters/digits, **email confirmations on**, secure password change.
+
+## 2026-10-15 — Day 1.5: clickable prototype
+
+- Decision: in-app prototype before real data wiring (roadmap updated). Screens use the `ExitBrainApi` interface; prototype runs on `createMockApi()` with **MOCK DATA** fixtures (fictional Acme SaaS, Ravi/Priya/Kiran/Anita).
+- Screens: transitions dashboard, knowledge review (confirm / edit / reject, risk factors), answers + verification, handover document (approve, copy as Markdown), employee interview (evidence-based questions, follow-ups, skip with reason, approve), successor checklist + cited assistant with refusal and "Ask Ravi" escalation, workspace setup.
+- Design: evidence-first — inline citation pills coloured by verification status open a git-log style evidence panel; risk shown as bars, not colour. IBM Plex Sans + Plex Mono (code evidence only).
+- Tests: vitest **26/26** (mock adapter rules 12, UI flows 7, env 7). lint, typecheck, format, build exit 0.
+- Shareable single-file build (`npm run build:prototype`, memory router) published as a private claude.ai Artifact. Visual review in a browser not done in the build environment.
+
+## 2026-10-15 — P0: design system (UX plan phase 0)
+
+- Palette sampled from the Exit Brain logo (ink `#0D1939`, blue `#1F5DF0`, violet `#733AEA`, cyan `#46C2FE`); tokens in `src/design/tokens.css`, light + dark (system setting and in-app toggle).
+- `tokens.test.ts` parses the token file and enforces WCAG AA for 17 text/background pairs per theme and 3:1 for control borders — **37 tests**; verified it fails on a bad token (light blue brand → 4 failures).
+- Logo assets: transparent full logo, mark, 32/192/512 px icons (`public/brand/`); live wordmark so "Exit" stays legible on dark.
+- Primitives: Button (variants, sizes, loading), Field/TextInput/TextArea/SelectInput (label/hint/error wired with ARIA), Dialog (native `<dialog>`), Toast (polite live region), ThemeToggle, Logo, DemoLabel, SimulatedStepNotice; states: Skeleton, EmptyState, ErrorState. Icons: lucide-react 1.49.0 (pinned).
+- `domain/permissions.ts` mirrors the security role matrix; 19 tests pin it.
+- Prototype migrated to tokens (no literal colours left in components); MOCK DATA bar uses the `demo` token.
+- Tests: vitest **90/90**; lint, typecheck, format, build, bundle scan exit 0. Visual review in a real browser still not done in the build environment.
