@@ -1,4 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router'
+import { Logo } from '../design/primitives/Logo'
+import { ThemeToggle } from '../design/primitives/ThemeToggle'
 import { usePersona } from './persona'
 import { personas, type PersonaId } from './personas'
 
@@ -18,20 +20,15 @@ export function Shell() {
     <div className="min-h-screen">
       <div
         role="note"
-        className="bg-[repeating-linear-gradient(135deg,#fff5cc_0_12px,#fdeeb0_12px_24px)] px-4 py-1.5 text-center text-xs text-[#5c4300]"
+        className="border-b border-demo/30 bg-demo-soft px-4 py-1.5 text-center text-xs text-demo"
       >
-        <strong className="font-semibold">MOCK DATA</strong> — clickable prototype. Nothing is connected to
-        GitHub, and the AI steps are simulated.
+        <strong className="font-semibold">MOCK DATA</strong>: demo workspace with a fictional company. Nothing
+        is connected to GitHub, and AI steps are simulated.
       </div>
       <header className="border-b border-line bg-surface">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2 px-4 py-3">
           <NavLink to={persona.home} className="flex items-center gap-2 font-semibold tracking-tight">
-            <svg aria-hidden width="22" height="22" viewBox="0 0 22 22" className="text-brand">
-              <path d="M4 5h9M4 11h14M4 17h6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-              <circle cx="16" cy="5" r="2" fill="currentColor" />
-              <circle cx="13" cy="17" r="2" fill="currentColor" />
-            </svg>
-            Exit Brain
+            <Logo size={26} />
           </NavLink>
           <nav aria-label="Main" className="flex gap-1">
             {navFor(persona.role).map((n) => (
@@ -47,24 +44,27 @@ export function Shell() {
               </NavLink>
             ))}
           </nav>
-          <label className="ml-auto flex items-center gap-2 text-sm text-muted">
-            Viewing as
-            <select
-              value={persona.id}
-              onChange={(e) => {
-                const id = e.target.value as PersonaId
-                setPersona(id)
-                navigate(personas[id].home)
-              }}
-              className="rounded-md border border-line bg-surface px-2 py-1 text-sm text-ink"
-            >
-              {Object.values(personas).map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}, {p.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
+            <label className="flex items-center gap-2 text-sm text-muted">
+              Viewing as
+              <select
+                value={persona.id}
+                onChange={(e) => {
+                  const id = e.target.value as PersonaId
+                  setPersona(id)
+                  navigate(personas[id].home)
+                }}
+                className="h-8 rounded-control border border-line-strong bg-surface px-2 text-sm text-ink"
+              >
+                {Object.values(personas).map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}, {p.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-4 py-8">

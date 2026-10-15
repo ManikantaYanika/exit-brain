@@ -3,8 +3,8 @@ import { useParams } from 'react-router'
 import { Citations } from '../../components/evidence/Citations'
 import { EvidenceProvider } from '../../components/evidence/EvidenceContext'
 import { EvidencePanel } from '../../components/evidence/EvidencePanel'
-import { Button } from '../../components/ui/Button'
-import { ProgressBar, RiskBars, VerificationBadge } from '../../components/ui/status'
+import { Button } from '../../design/primitives/Button'
+import { ProgressBar, RiskBars, VerificationBadge } from '../../design/primitives/status'
 import {
   useAskAssistant,
   useChecklist,

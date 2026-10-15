@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button } from '../../components/ui/Button'
+import { Button } from '../../design/primitives/Button'
 import { useApi } from '../../data/ApiProvider'
 import { useOrganization } from '../../data/hooks'
 import type { Role } from '../../data/types'
@@ -84,7 +84,7 @@ export function OnboardingPage() {
           {links.length > 0 && (
             <ul className="mt-4 space-y-2">
               {links.map((l) => (
-                <li key={l.url} className="rounded-md bg-paper px-3 py-2 text-sm">
+                <li key={l.url} className="rounded-md bg-canvas px-3 py-2 text-sm">
                   <span className="font-medium">{l.email}</span> as {l.role}
                   <span className="mt-0.5 block truncate font-mono text-xs text-muted">{l.url}</span>
                 </li>

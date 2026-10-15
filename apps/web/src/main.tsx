@@ -4,6 +4,7 @@ import { createBrowserRouter, createMemoryRouter, RouterProvider } from 'react-r
 import { AppProviders } from './app/AppProviders'
 import { routes } from './app/routes'
 import { createMockApi } from './data/mockApi'
+import { applyThemeChoice, readThemeChoice } from './design/theme'
 import './index.css'
 import { createQueryClient } from './lib/queryClient'
 
@@ -13,6 +14,8 @@ const router =
 
 // Prototype: in-memory MOCK DATA adapter. The Supabase adapter replaces this in the real build.
 const api = createMockApi()
+
+applyThemeChoice(readThemeChoice())
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element #root not found')

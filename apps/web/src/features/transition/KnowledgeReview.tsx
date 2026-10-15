@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Citations } from '../../components/evidence/Citations'
-import { Button } from '../../components/ui/Button'
-import { ConfidenceText, RiskBars } from '../../components/ui/status'
+import { Button } from '../../design/primitives/Button'
+import { ConfidenceText, RiskBars } from '../../design/primitives/status'
 import { useKnowledgeItems, useReviewItem } from '../../data/hooks'
 import type { ItemCategory, KnowledgeItem } from '../../data/types'
 
