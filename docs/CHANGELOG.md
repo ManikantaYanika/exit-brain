@@ -47,3 +47,12 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Fixes found by screenshot review: missing charset in single-file build (mojibake), sidebar footer clipped under the demo bar.
 - Verified: oxlint, prettier, typecheck, **vitest 125/125**, `vite build`, bundle secret scan clean; Playwright screenshots of landing (light/dark/mobile), sign-in, demo picker and all 5 portals.
 - Known: main JS chunk 543 kB (165 kB gzip) — route-level code splitting is a follow-up.
+
+## 2026-10-15 — Website track W0: plan and copy (docs only)
+
+- New `docs/04-ux/website-plan.md`: decisions D1–D8, sitemap, journeys, website tokens (contrast measured), motion rules, rendering/fonts/guide/contact architecture, dependencies, tasks W0–W10 with acceptance criteria and review gates.
+- New `docs/04-ux/website-copy.md`: page-wise copy draft v0.1 with source markers; product status stated as "early development, pilots by invitation".
+- Updated PRD (§2.1 website scope), roadmap (Website track), ux-plan §11 (website tokens and motion are website-only), security §5.10 (claims policy, site guide, contact form, third parties), README docs table.
+- Verified: IBM Plex `@fontsource` 5.3.0 is OFL-1.1; latin woff2 for the five faces used ≈ 101 KB (measured from npm tarballs).
+- No code changed. Pending: W1 rendering spike.
+- W1 spike (branch `spike/rr-framework-prerender`, PR #10, not for merge): framework mode + prerender verified — static HTML with content and meta, sitemap, 404 via host rule, app routes on reload, 125/125 tests, CI 4/4 green; first-load JS 139 KB gzip on Home vs 159 KB today. Report: `docs/04-ux/website-w1-spike.md`. Recommendation GO, pending approval.

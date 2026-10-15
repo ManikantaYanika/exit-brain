@@ -25,6 +25,13 @@
 | Tenant isolation enforced in the database (RLS) | SSO/SAML, SCIM, billing |
 | Usable by a non-technical HR user | Mobile apps |
 
+### 2.1 Public website (separate track, added 15 Oct 2026)
+
+A multi-page marketing website is built as a **separate track** that must not block the MVP. Scope, decisions D1–D8 and acceptance criteria: `docs/04-ux/website-plan.md`; copy: `docs/04-ux/website-copy.md`.
+- In scope: public pages, a **no-LLM site guide** (answers only from website content), contact form (backend after approval).
+- Founder-led **services** (pilot onboarding, handover facilitation, knowledge concentration review) are *proposed*, kept separate from the software product, with no promised outcomes.
+- Out of scope until approved: LLM chatbot, analytics vendor, email provider, pricing/blog/careers pages.
+
 ## 3. Target customers and personas
 
 ### 3.1 Ideal initial customer profile (ICP) — [RECOMMENDATION]
