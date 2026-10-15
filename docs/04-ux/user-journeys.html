@@ -1,0 +1,393 @@
+<title>Exit Brain User Journeys</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one reading column with a sticky contents rail on wide screens; each journey = heading, rules, diagram. */
+  :root {
+    --canvas: #f5f7fb; --surface: #ffffff; --ink: #0d1939; --muted: #55617a; --line: #dce2ec;
+    --brand: #1f5df0; --brand-2: #733aea; --brand-soft: #eaf0fe;
+    --gate: #9a5d00; --gate-soft: #fdf2df; --demo: #7a5a00; --demo-soft: #fff4cc;
+    --block: #b42318; --block-soft: #fde8e6; --ok: #1e7b4f; --ok-soft: #e6f4ec;
+    --font: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --canvas: #0a1022; --surface: #121a30; --ink: #e8ecf5; --muted: #9ba6bd; --line: #24304d;
+    --brand: #7fa6ff; --brand-2: #b49bff; --brand-soft: #1a2a55;
+    --gate: #e7a94a; --gate-soft: #2e2210; --demo: #e8c35a; --demo-soft: #2b2410;
+    --block: #f0756a; --block-soft: #33150f; --ok: #4cc38a; --ok-soft: #12291e; color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --canvas: #0a1022; --surface: #121a30; --ink: #e8ecf5; --muted: #9ba6bd; --line: #24304d;
+    --brand: #7fa6ff; --brand-2: #b49bff; --brand-soft: #1a2a55;
+    --gate: #e7a94a; --gate-soft: #2e2210; --demo: #e8c35a; --demo-soft: #2b2410;
+    --block: #f0756a; --block-soft: #33150f; --ok: #4cc38a; --ok-soft: #12291e; color-scheme: dark; }
+
+  body { background: var(--canvas); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.6; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .wordmark { font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .wordmark b { font-weight: 600; background: linear-gradient(90deg, var(--brand), var(--brand-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); line-height: 1.15; letter-spacing: -0.02em; margin: 8px 0 0; text-wrap: balance; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 10px 0 0; }
+  .meta { color: var(--muted); font-size: 0.85rem; }
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; margin-top: 32px; }
+  nav.toc { position: sticky; top: max(16px, env(safe-area-inset-top, 0px)); align-self: start; font-size: 0.9rem; }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; counter-reset: j; }
+  nav.toc a { display: block; padding: 6px 10px; border-radius: 6px; color: var(--muted); text-decoration: none; }
+  nav.toc a:hover { color: var(--ink); background: var(--brand-soft); }
+  nav.toc .grp { margin: 14px 10px 4px; font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+  main { min-width: 0; display: grid; gap: 56px; }
+  section { min-width: 0; scroll-margin-top: 24px; }
+  section h2 { font-size: 1.4rem; letter-spacing: -0.01em; margin: 0; }
+  section .who { display: inline-flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .chip { font-size: 0.78rem; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .chip.client { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 40%, transparent); }
+  .chip.platform { color: var(--brand-2); border-color: color-mix(in srgb, var(--brand-2) 40%, transparent); }
+  .chip.new { color: var(--gate); background: var(--gate-soft); border-color: transparent; }
+  section > p { color: var(--muted); max-width: 72ch; margin: 10px 0 0; }
+  .diagram { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; }
+  .diagram pre.mermaid { margin: 0; min-width: 640px; text-align: center; background: transparent; }
+  .rules { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .rule { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; font-size: 0.92rem; }
+  .rule strong { display: block; font-weight: 600; }
+  .rule span { color: var(--muted); }
+  .rule.gate { border-color: var(--gate); }
+  .rule.block { border-color: var(--block); }
+  .rule.ok { border-color: var(--ok); }
+  .rule.demo { border-color: var(--demo); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; font-size: 0.85rem; color: var(--muted); }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; border: 2px solid; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .tablebox { margin-top: 16px; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+  tr:last-child td { border-bottom: none; }
+  code { font-family: var(--mono); font-size: 0.85em; }
+  .yes { color: var(--ok); font-weight: 500; } .no { color: var(--block); font-weight: 500; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } nav.toc { position: static; } nav.toc ol { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  html { scroll-behavior: smooth; }
+  a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="wordmark">Exit <b>Brain</b></div>
+      <h1>User journeys across the platform</h1>
+      <p class="lede">How each person moves through Exit Brain, from a visitor on the landing page to a successor asking the assistant, plus how the Exit Brain team runs the platform without reading customer knowledge.</p>
+    </div>
+    <div class="meta">Version 0.1, 15 Oct 2026<br>Source: ux-plan.md, PRD, security plan</div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Journeys">
+      <ol>
+        <li><a href="#overview">Platform overview</a></li>
+        <li class="grp">Customer side</li>
+        <li><a href="#signup">Visitor to workspace</a></li>
+        <li><a href="#transition">Manager runs a transition</a></li>
+        <li><a href="#employee">Leaving employee</a></li>
+        <li><a href="#successor">Successor</a></li>
+        <li><a href="#hr">HR and org admin</a></li>
+        <li><a href="#lifecycle">Transition lifecycle</a></li>
+        <li class="grp">Exit Brain team</li>
+        <li><a href="#platform">Platform admin console</a></li>
+        <li><a href="#support">Support access</a></li>
+        <li class="grp">Reference</li>
+        <li><a href="#access">Who sees what</a></li>
+        <li><a href="#demo">Demo vs live</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section id="overview">
+        <h2>Platform overview</h2>
+        <div class="who"><span class="chip client">Customer organisations</span><span class="chip platform">Exit Brain team</span></div>
+        <p>Two separate worlds. Customer organisations work inside their own workspace, isolated by row-level security. The Exit Brain team uses a separate console that sees account metadata and system health, never evidence, answers or handovers, unless a customer owner grants time-limited support access.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart LR
+  V([Visitor]) --> L[Landing page]
+  L -->|Start free pilot| S[Sign up and confirm email]
+  L -->|Try the demo| D[Demo workspace<br/>fictional data, no account]
+  S --> W
+
+  subgraph W[Customer workspace, isolated per organisation]
+    direction TB
+    O[Owner / Admin<br/>org, team, GitHub, data] --> M[Manager<br/>transitions, review, approve]
+    M --> E[Leaving employee<br/>interview, approve answers]
+    E --> M
+    M --> K[Successor<br/>checklist, handover, assistant]
+    K -.->|escalate| E
+    H[HR viewer<br/>status only]
+  end
+
+  GH[(GitHub<br/>read-only App)] -->|commits, PRs, issues| W
+
+  subgraph P[Exit Brain team console]
+    direction TB
+    PA[Platform admin<br/>tenants, health, billing]
+    SU[Support engineer]
+  end
+
+  P -.->|metadata and health only| W
+  O -.->|grants support access, time-boxed| SU
+        </pre></div>
+        <div class="legend"><span><i style="border-color:var(--brand)"></i>Customer action</span><span><i style="border-color:var(--gate)"></i>Human approval gate</span><span><i style="border-color:var(--demo)"></i>Demo or simulated</span><span>Dashed arrow: limited or optional</span></div>
+      </section>
+
+      <section id="signup">
+        <h2>Visitor to ready workspace</h2>
+        <div class="who"><span class="chip client">Owner / CTO</span></div>
+        <p>From the landing page to a workspace with the team invited and GitHub connected. Every setup step can be skipped and resumed later.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[Landing page] --> B{Account?}
+  B -->|New| C[Sign up<br/>work email + password or magic link]
+  B -->|Existing| C2[Sign in]
+  B -->|Just looking| DM[Demo role picker]
+  C --> C1[Confirm email<br/>required: invites need confirmed addresses]
+  C1 --> F[Create organisation<br/>name, size, time zone, retention 90 days]
+  C2 --> R{Setup complete?}
+  R -->|No| F
+  R -->|Yes| DASH[Transitions dashboard]
+  F --> G[Invite team<br/>email + role: admin, manager, employee, successor, viewer]
+  G --> H[Connect GitHub<br/>read-only App: metadata, contents, PRs, issues]
+  H --> H1{Install on GitHub}
+  H1 -->|Cancelled| H2[Explain what we read and never do<br/>retry or skip]
+  H1 -->|Installed| I[Choose repositories<br/>only selected repos are ever read]
+  I --> J[Workspace ready]
+  J --> K[Start first transition]
+  G -.->|skip| H
+  H -.->|skip| J
+        </pre></div>
+        <div class="rules">
+          <div class="rule ok"><strong>Owner role on creation</strong><span>The person who creates the organisation becomes owner; audit logs org.created.</span></div>
+          <div class="rule block"><strong>No owner invites</strong><span>Owner can only be granted by an existing owner, never through an invite.</span></div>
+          <div class="rule gate"><strong>Read-only GitHub</strong><span>No write permissions are requested. Disconnect is always available.</span></div>
+        </div>
+      </section>
+
+      <section id="transition">
+        <h2>Manager runs a transition</h2>
+        <div class="who"><span class="chip client">Manager</span><span class="chip client">Owner / Admin</span></div>
+        <p>The core loop: read the work records, confirm what matters, interview, verify, and approve a handover the successor can trust.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[Dashboard] --> B[Start a transition<br/>person, GitHub login, last day, successor, repos]
+  B --> B1{Already an active transition<br/>for this person?}
+  B1 -->|Yes| B2[Open the existing one]
+  B1 -->|No| C[Reading GitHub<br/>per-repo progress, pauses for rate limits, retry]
+  C --> D[Knowledge areas detected<br/>each with evidence, risk bars, confidence]
+  D --> E{Manager review}:::gate
+  E -->|Confirm| F[Confirmed area]
+  E -->|Edit| F
+  E -->|Reject| X[Rejected, kept in history]
+  F --> G[Interview questions generated<br/>3 to 6 per area, each cites evidence]
+  G --> H[[Leaving employee answers and approves]]
+  H --> I[Answers verified against records<br/>supported, partly, conflicting, unverified]
+  I --> I1{Conflicting?}
+  I1 -->|Yes| I2[Manager task: resolve or override with comment]
+  I1 -->|No| J
+  I2 --> J[Handover generated<br/>every statement cited with status]
+  J --> K{Approve handover}:::gate
+  K -->|Changes needed| J
+  K -->|Approve| L[Locked version shared with successor]
+  L --> M[Track successor readiness]
+  classDef gate stroke:#9a5d00,stroke-width:2px
+        </pre></div>
+        <div class="rules">
+          <div class="rule gate"><strong>Gate 1: review areas</strong><span>Only confirmed or edited areas become interview questions.</span></div>
+          <div class="rule gate"><strong>Gate 3: approve handover</strong><span>Dialog lists open items and exactly who gains access before approving.</span></div>
+          <div class="rule"><strong>Risk is not performance</strong><span>Risk describes knowledge concentration in code areas, never a person’s quality of work.</span></div>
+        </div>
+      </section>
+
+      <section id="employee">
+        <h2>Leaving employee</h2>
+        <div class="who"><span class="chip client">Leaving employee</span></div>
+        <p>Short sessions, evidence for every question, and nothing shared until they approve it.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[Invitation email] --> B[Accept invite<br/>must match the confirmed email]
+  B --> C[My interview<br/>why this exists, what is shared, about 15 min a day]
+  C --> D[Pick a topic, highest risk first]
+  D --> E[Question with evidence<br/>Why are we asking?]
+  E --> F{Answer}
+  F -->|Write answer| G[Assessed: complete, vague, incomplete]
+  F -->|I don't know / someone else| S[Skip with reason or suggest a person]
+  G -->|Vague or incomplete| FU[Follow-up question<br/>max 2 per question]
+  FU --> F
+  G -->|Complete| N[Draft saved, only visible to them]
+  S --> N
+  N --> P[Preview what will be shared]
+  P --> Q{Approve answers}:::gate
+  Q -->|Edit first| E
+  Q -->|Approve| R[Shared with manager and successor<br/>locked, cannot be edited]
+  R -.->|successor escalates a question| E
+  classDef gate stroke:#9a5d00,stroke-width:2px
+        </pre></div>
+        <div class="rules">
+          <div class="rule gate"><strong>Gate 2: employee approval</strong><span>Drafts are invisible to everyone else (RLS); approval is explicit.</span></div>
+          <div class="rule block"><strong>Never an evaluation</strong><span>No scoring of the person, only of whether an answer is specific enough to hand over.</span></div>
+        </div>
+      </section>
+
+      <section id="successor">
+        <h2>Successor</h2>
+        <div class="who"><span class="chip client">Successor</span></div>
+        <p>Waits for an approved handover, then learns in risk order and asks questions answered only from approved knowledge.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[Accept invite] --> B{Handover approved?}
+  B -->|Not yet| W[Waiting state<br/>explains what will arrive and when]
+  W -.->|manager approves| B
+  B -->|Yes| C[Learning checklist<br/>high risk first, readiness meter]
+  C --> D[Open checklist item]
+  D --> E[Handover section with citations]
+  E --> F[Evidence panel<br/>commit, PR or issue excerpt]
+  C --> G[Ask the assistant]
+  G --> H{Found in approved knowledge?}
+  H -->|Yes| I[Answer with sources]
+  H -->|No| J[Says it can’t find it]
+  J --> K[Ask the leaving employee or manager]
+  K --> L[Question added to their interview]
+  L -.->|answered and approved| I
+  D --> M[Mark done]
+  M --> N[Readiness updates for manager and HR]
+        </pre></div>
+      </section>
+
+      <section id="hr">
+        <h2>HR viewer and organisation admin</h2>
+        <div class="who"><span class="chip client">HR viewer</span><span class="chip client">Owner / Admin</span></div>
+        <p>HR follows progress without seeing any knowledge content. Admins manage people, integrations, data and the audit trail.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart LR
+  subgraph HR[HR viewer]
+    direction TB
+    H1[Transitions list] --> H2[Status, days left, completion %, open risks count]
+    H2 --> H3[No evidence, answers or handover text]
+  end
+  subgraph AD[Owner / Admin settings]
+    direction TB
+    A1[Team<br/>roles, pending invites, revoke] --> A2[Integrations<br/>GitHub status, repositories]
+    A2 --> A3{Disconnect GitHub?}
+    A3 -->|Type org name to confirm| A4[Revoke + request deletion of ingested data]
+    A1 --> A5[Data and retention<br/>default 90 days after completion]
+    A1 --> A6[Audit log<br/>who did what, when]
+    A1 --> A7[Support access<br/>grant or revoke for Exit Brain team]
+  end
+        </pre></div>
+      </section>
+
+      <section id="lifecycle">
+        <h2>Transition lifecycle</h2>
+        <div class="who"><span class="chip client">System states</span></div>
+        <p>The status a transition moves through. Status changes happen on the server only; the browser can’t set them.</p>
+        <div class="diagram"><pre class="mermaid">
+stateDiagram-v2
+  [*] --> draft
+  draft --> ingesting: start
+  ingesting --> analysing: records read
+  ingesting --> ingesting: paused for rate limit, resumed
+  analysing --> interviewing: at least one area confirmed
+  interviewing --> verifying: answers approved
+  verifying --> handover_review: verification done
+  handover_review --> completed: handover approved
+  draft --> cancelled
+  ingesting --> cancelled
+  analysing --> cancelled
+  interviewing --> cancelled
+  completed --> [*]
+  cancelled --> [*]
+        </pre></div>
+      </section>
+
+      <section id="platform">
+        <h2>Platform admin console</h2>
+        <div class="who"><span class="chip platform">Exit Brain team</span><span class="chip new">New: not in PRD yet</span></div>
+        <p>A separate internal console for running the business and the service. Staff sign in with SSO and MFA from an allowlist; they are not members of any customer organisation.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[Staff sign-in<br/>SSO + MFA, staff allowlist] --> B[Console home<br/>active pilots, open incidents, job failures]
+  B --> C[Organisations list<br/>name, plan, seats, transitions, status]
+  C --> D[Organisation detail<br/>metadata only: plan, usage, integration health]
+  D --> D1[Usage and billing<br/>departures used, $149 per departure pilot]
+  D --> D2[Integration health<br/>GitHub installation status, failed jobs, rate-limit pauses]
+  D --> D3{Need to see content?}
+  D3 -->|No| D4[Resolve from metadata and logs]
+  D3 -->|Yes| SA[Request support access from the customer owner]
+  B --> E[Platform health<br/>job queue, AI run errors, token spend vs $5 target]
+  B --> F[Plans and feature flags]
+  B --> G[Deletion requests<br/>confirm retention and erasure jobs ran]
+  B --> H[Staff audit log<br/>every console action recorded]
+        </pre></div>
+        <div class="rules">
+          <div class="rule block"><strong>No content by default</strong><span>Evidence, answers and handovers are unreadable from the console. Enforced in the database, not the UI.</span></div>
+          <div class="rule ok"><strong>Everything audited</strong><span>Staff actions go to a staff audit log; anything touching a tenant is also visible in that tenant’s audit log.</span></div>
+          <div class="rule gate"><strong>Billing is post-MVP</strong><span>Usage counts can show in the MVP; invoicing and payments come later (PRD non-goal).</span></div>
+        </div>
+      </section>
+
+      <section id="support">
+        <h2>Support access</h2>
+        <div class="who"><span class="chip platform">Support engineer</span><span class="chip client">Customer owner</span><span class="chip new">New: not in PRD yet</span></div>
+        <p>How the Exit Brain team helps with a specific problem without standing access to customer knowledge.</p>
+        <div class="diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant C as Customer owner
+  participant EB as Exit Brain app
+  participant S as Support engineer
+  C->>EB: Report a problem with a transition
+  EB->>S: Ticket with org and transition id, no content
+  S->>EB: Request access, scope and reason
+  EB->>C: Approval request: scope, reason, 24 hours
+  C->>EB: Approve, or decline
+  EB->>S: Read-only access to that transition, expires automatically
+  S->>EB: Investigate and fix
+  EB->>C: Every view and action appears in the customer audit log
+  Note over EB: Access ends at expiry or when the owner revokes it
+        </pre></div>
+      </section>
+
+      <section id="access">
+        <h2>Who sees what</h2>
+        <p>Summarised from the security plan’s role matrix. The database enforces these rules; the interface only reflects them.</p>
+        <div class="tablebox"><table>
+          <thead><tr><th scope="col">Content</th><th scope="col">Owner / Admin</th><th scope="col">Manager</th><th scope="col">Leaving employee</th><th scope="col">Successor</th><th scope="col">HR viewer</th><th scope="col">Exit Brain staff</th></tr></thead>
+          <tbody>
+            <tr><td>Transition status and progress</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Own</td><td>Assigned</td><td class="yes">Yes</td><td>Counts only</td></tr>
+            <tr><td>Raw evidence (commit, PR, issue excerpts)</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Own</td><td>Only via cited approved items</td><td class="no">No</td><td>Only with granted support access</td></tr>
+            <tr><td>Draft answers</td><td class="no">No</td><td class="no">No</td><td>Own</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Approved answers</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Own</td><td class="yes">Yes</td><td class="no">No</td><td>Only with granted support access</td></tr>
+            <tr><td>Handover document</td><td class="yes">Yes</td><td class="yes">Yes</td><td>Own, read</td><td>Approved version</td><td class="no">No</td><td>Only with granted support access</td></tr>
+            <tr><td>Team, integrations, retention</td><td class="yes">Manage</td><td>View team</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td>Metadata</td></tr>
+            <tr><td>Audit log</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td>Staff log; tenant log with support access</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="demo">
+        <h2>Demo mode and live mode</h2>
+        <p>The same screens run in both modes. What differs is where data comes from and what is labelled.</p>
+        <div class="diagram"><pre class="mermaid">
+flowchart LR
+  UI[Same screens and components] --> API{Data interface}
+  API -->|demo| DM[Demo adapter<br/>fictional company, simulated GitHub and AI<br/>labelled on every simulated step]
+  API -->|live| LV[Supabase adapter<br/>real auth, RLS, Edge Functions,<br/>GitHub App, LLM]
+  AUTH{Sign-in} -->|now| RA[Real Supabase Auth<br/>real org, team, invites]
+  RA --> DC[Transition content: demo data, labelled]
+  AUTH -->|later, Days 2 to 6| FULL[Real everything]
+        </pre></div>
+        <div class="rules">
+          <div class="rule demo"><strong>Honest labels</strong><span>Demo bar on every page; “Simulated” notice on GitHub connection, reading progress and AI steps.</span></div>
+          <div class="rule block"><strong>Never faked</strong><span>No “Connected to GitHub” in demo, no invented customer logos, metrics or testimonials.</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

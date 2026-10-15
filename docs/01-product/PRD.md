@@ -57,7 +57,7 @@
 
 ### 3.4 Willingness-to-pay assumptions — [ASSUMPTION]
 
-- Replacing a senior engineer costs far more than $1,000 in recruiting + ramp-up; a handover tool priced **$299 per departure** is a small, easy decision. To be validated (see `09-business/go-to-market.md`).
+- Replacing a senior engineer costs far more than $1,000 in recruiting + ramp-up; a handover tool priced **$149 per departure** (pilot price, decided 15 Oct 2026; was $299) is a small, easy decision. To be validated (see `09-business/go-to-market.md`).
 - Buyers prefer **per-handover** pricing first (event-driven), then a subscription for continuous risk monitoring.
 
 ## 4. User stories (MVP)
