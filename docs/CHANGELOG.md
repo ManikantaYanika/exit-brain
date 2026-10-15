@@ -64,4 +64,4 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Prototype build restored (`vite.prototype.config.ts`, `index.prototype.html`); route-parity test; `isbot` declared; root + per-route metadata (`appMeta` noindex); `/spike-about` removed.
 - Hosting: `deploy/nginx/exit-brain.conf` (SPA fallback, real 404, gzip) tested with real nginx (`scripts/ci/test-nginx.sh`); `scripts/verify-prerender.mjs` guard in CI.
 - D8: IBM Plex self-hosted (WOFF2 + OFL); 32-screen pixel comparison vs pre-spike build: no font or layout change (one 6-px rendering-noise diff).
-- Verified locally: clean `npm ci`, lint, format, typecheck, **135/135 tests**, build, prerender guard, secret scan, nginx 10/10, prototype build. Lighthouse (lab, HTTP/2): home 97–99, LCP 1.9–2.1 s. Report: `docs/04-ux/website-w1b-report.md`.
+- CI (PR #11): all 5 jobs green incl. `live-auth`. Verified locally: clean `npm ci`, lint, format, typecheck, **135/135 tests**, build, prerender guard, secret scan, nginx 10/10, prototype build. Lighthouse (lab, HTTP/2): home 97–99, LCP 1.9–2.1 s. Report: `docs/04-ux/website-w1b-report.md`.

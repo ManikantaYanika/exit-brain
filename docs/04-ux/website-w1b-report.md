@@ -27,7 +27,7 @@ Also: `/spike-about` removed; `scripts/verify-prerender.mjs` (CI) fails the buil
 
 ## 3. Live Supabase auth
 
-- Local stack can't run in this sandbox (Docker registries return 403), so verification runs in a **new CI job `live-auth`**: `supabase start` (Postgres, GoTrue, PostgREST, Kong, Mailpit) → build with `VITE_AUTH_MODE=live` → Playwright: live sign-in page has no demo panel → sign-up → confirmation email read from Mailpit → link signs in → "Welcome / Create workspace" (no membership) → reload keeps session → sign-out protects `/app` → wrong password rejected → sign-in again → unconfirmed account blocked. Result: see PR checks (not claimed here until CI runs).
+- Local stack can't run in this sandbox (Docker registries return 403), so verification runs in a **new CI job `live-auth`**: `supabase start` (Postgres, GoTrue, PostgREST, Kong, Mailpit) → build with `VITE_AUTH_MODE=live` → Playwright: live sign-in page has no demo panel → sign-up → confirmation email read from Mailpit → link signs in → "Welcome / Create workspace" (no membership) → reload keeps session → sign-out protects `/app` → wrong password rejected → sign-in again → unconfirmed account blocked. **Result: passed on PR #11, run 38752619332** (step "Run sign-up, confirmation and sign-in in a real browser" succeeded; the script exits non-zero if any of its 9 checks fails). Log text could not be downloaded from the build sandbox; it is visible in the GitHub job log.
 - Not covered: workspace creation through the `api-create-org` Edge Function (edge runtime not started in this job), magic link.
 - Known cost: in live mode the Supabase client chunk (**~55 KB gzip**) also loads on marketing pages, because the auth provider checks the session on mount. Proposed fix in W2: check the session only on auth/app routes. Demo mode is unaffected.
 
@@ -52,7 +52,6 @@ Changes made because of measurement: gzip in the nginx config (it was missing, J
 
 ## 5. Not done / open
 
-- Live-auth CI result pending first run.
 - Vercel/Netlify 404 rules not verified (hosting not chosen); nginx verified.
 - Field performance after deploy.
 - Logo `<img>` uses the 39 KB 512-px PNG at 28 px and React preloads it; a smaller asset would help, but it is a visual asset change → out of W1b scope.
