@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './design/tokens.css';
+@import './design/fonts/fonts.css';
 
 /* Tailwind utilities read the theme-aware tokens, so `bg-surface` etc. follow light/dark. */
 @theme inline {

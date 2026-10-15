@@ -1,18 +1,35 @@
 import type { ReactNode } from 'react'
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import { AppProviders } from './app/AppProviders'
-import { createDemoAuth } from './data/demo/demoAuth'
+import { createAuth } from './app/createAuth'
 import { createMockApi } from './data/mockApi'
-import './index.css'
+import plexSans400 from './design/fonts/ibm-plex-sans-latin-400-normal.woff2?url'
+import plexSans600 from './design/fonts/ibm-plex-sans-latin-600-normal.woff2?url'
+import appCss from './index.css?url'
 import { createQueryClient } from './lib/queryClient'
 
-// SPIKE (W1): demo auth + mock data only. Live Supabase auth wiring is a follow-up (see spike report).
+// Created once per page load. In live mode, Supabase is loaded lazily in the browser (createAuth).
+// Product data stays MOCK DATA until the live data adapter lands (roadmap Days 2–6).
 const api = createMockApi()
-const auth = createDemoAuth()
+const auth = createAuth()
 const queryClient = createQueryClient()
 
-// Applies the saved theme before first paint (replaces applyThemeChoice in main.tsx).
+// Applies the saved theme before first paint, so dark-mode users don't see a light flash.
 const themeScript = `try{var t=localStorage.getItem('eb-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+
+/** Default metadata; route modules override it (pageMeta / appMeta in routes/meta.ts). */
+export const meta = () => [{ title: 'Exit Brain' }]
+
+/**
+ * The stylesheet blocks first paint, so it is declared with a React `precedence`: React then emits it
+ * ahead of the module preloads it hoists into <head> (measured: see docs/04-ux/website-w1b-report.md).
+ * Then the two most-used font faces, so text renders in IBM Plex without a late swap.
+ */
+export const links = () => [
+  { rel: 'stylesheet', href: appCss, precedence: 'default' },
+  { rel: 'preload', href: plexSans400, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' as const },
+  { rel: 'preload', href: plexSans600, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' as const },
+]
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -23,12 +40,6 @@ export function Layout({ children }: { children: ReactNode }) {
         <link rel="icon" type="image/png" href="/brand/mark-32.png" />
         <link rel="apple-touch-icon" href="/brand/mark-192.png" />
         <meta name="theme-color" content="#0d1939" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
-        />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Meta />
         <Links />

@@ -5,7 +5,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const out = 'dist-prototype'
-execSync(`npx vite build --base ./ --outDir ${out}/build --emptyOutDir`, {
+execSync(`npx vite build --config vite.prototype.config.ts --base ./ --outDir ${out}/build --emptyOutDir`, {
   stdio: 'inherit',
   env: { ...process.env, VITE_ROUTER: 'memory' },
 })
@@ -25,9 +25,6 @@ const inlined = { css, js }
 
 const html = `<meta charset="utf-8">
 <title>Exit Brain</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>${inlined.css}</style>
 <div id="root"></div>
 <script type="module">${inlined.js}</script>

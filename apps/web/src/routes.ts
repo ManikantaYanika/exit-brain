@@ -1,11 +1,12 @@
 import { index, layout, prefix, route, type RouteConfig } from '@react-router/dev/routes'
 
-// SPIKE (W1): same URL structure as src/app/routes.tsx, expressed as route modules.
+/**
+ * Build-time route config (framework mode). Public pages listed in react-router.config.ts are
+ * prerendered; everything else is served by the SPA fallback.
+ * Keep in sync with src/app/routes.tsx (used by tests and the prototype) — routes.parity.test.ts checks this.
+ */
 export default [
-  layout('routes/site-layout.tsx', [
-    index('routes/home.tsx'),
-    route('spike-about', 'routes/spike-about.tsx'),
-  ]),
+  layout('routes/site-layout.tsx', [index('routes/home.tsx')]),
   route('sitemap.xml', 'routes/sitemap.ts'),
   route('signin', 'routes/signin.tsx'),
   route('signup', 'routes/signup.tsx'),
@@ -24,6 +25,7 @@ export default [
       route('onboarding/:id', 'routes/app-onboarding.tsx'),
       route('setup', 'routes/app-setup.tsx'),
       route('team', 'routes/app-team.tsx'),
+      route('*', 'routes/not-found.tsx', { id: 'app-not-found' }),
     ]),
   ]),
   route('404', 'routes/not-found.tsx', { id: 'not-found-page' }),
