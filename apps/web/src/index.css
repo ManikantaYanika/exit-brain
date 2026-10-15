@@ -121,12 +121,42 @@ h3 {
   animation: eb-enter 160ms var(--ease-standard);
 }
 
+/* Landing hero: records rise in once, then citations light up (≤ 1s total). */
+@keyframes eb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.eb-trace-in {
+  animation: eb-rise 420ms var(--ease-standard) both;
+}
+@keyframes eb-cite-pop {
+  0% {
+    background-color: transparent;
+  }
+  40% {
+    background-color: var(--eb-supported-soft);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.eb-cite-pop {
+  animation: eb-cite-pop 600ms var(--ease-standard) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

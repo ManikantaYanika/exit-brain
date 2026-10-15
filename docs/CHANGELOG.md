@@ -37,3 +37,13 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - `domain/permissions.ts` mirrors the security role matrix; 19 tests pin it.
 - Prototype migrated to tokens (no literal colours left in components); MOCK DATA bar uses the `demo` token.
 - Tests: vitest **90/90**; lint, typecheck, format, build, bundle scan exit 0. Visual review in a real browser still not done in the build environment.
+
+## 2026-10-15 — P1: landing page, auth portal, one portal per role
+
+- Public landing page (`/`): evidence-trace hero, how it works, per-role portals, security, **$149 per departure** pilot pricing (labelled "billing isn’t live yet"), FAQ.
+- Auth portal: `/signin` (password + magic link), `/signup` (Zod policy = Supabase config: 8+ chars, letters + digits), `/check-email`, `/demo` portal picker. Redirect-after-login only to `/app/…` paths (no open redirect).
+- `AuthGateway` contract with two adapters: **demo** (fixed fictional accounts, labelled MOCK DATA everywhere) and **live** Supabase Auth (`VITE_AUTH_MODE=live`; email confirmation required, magic links never create users, workspace creation via `api-create-org`). Supabase client is only loaded in live mode.
+- Role portals under `/app` with `RequireAuth` + per-role sidebar: owner/admin (transitions, team, setup), manager (transitions, team), leaving engineer (own interview), successor (own onboarding), HR viewer (status only). UI gates only; RLS stays the boundary.
+- Fixes found by screenshot review: missing charset in single-file build (mojibake), sidebar footer clipped under the demo bar.
+- Verified: oxlint, prettier, typecheck, **vitest 125/125**, `vite build`, bundle secret scan clean; Playwright screenshots of landing (light/dark/mobile), sign-in, demo picker and all 5 portals.
+- Known: main JS chunk 543 kB (165 kB gzip) — route-level code splitting is a follow-up.
