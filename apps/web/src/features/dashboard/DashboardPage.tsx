@@ -3,6 +3,7 @@ import { usePersona } from '../../app/persona'
 import { ProgressBar, TransitionStatusText } from '../../design/primitives/status'
 import { useProgress, useTransitions } from '../../data/hooks'
 import type { Transition } from '../../data/types'
+import { can } from '../../domain/permissions'
 
 const TODAY = new Date('2026-10-15T12:00:00+05:30')
 
@@ -14,7 +15,7 @@ function Row({ t, canOpen }: { t: Transition; canOpen: boolean }) {
   const { data: p } = useProgress(t.id)
   const left = daysLeft(t.lastWorkingDay)
   const name = canOpen ? (
-    <Link to={`/transitions/${t.id}`} className="font-medium text-brand hover:underline">
+    <Link to={`/app/transitions/${t.id}`} className="font-medium text-brand hover:underline">
       {t.employee.name}
     </Link>
   ) : (
@@ -106,12 +107,12 @@ export function DashboardPage() {
           </thead>
           <tbody>
             {transitions?.map((t) => (
-              <Row key={t.id} t={t} canOpen={persona.role === 'manager'} />
+              <Row key={t.id} t={t} canOpen={can(persona.role, 'transition.viewAll')} />
             ))}
           </tbody>
         </table>
       </div>
-      {persona.role === 'manager' && (
+      {can(persona.role, 'transition.create') && (
         <p className="text-sm text-muted">
           Starting a transition reads the leaving person’s commits, pull requests and issues from the
           repositories you selected. Exit Brain never writes to GitHub.

@@ -1,21 +1,25 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router'
+import type { Role } from '../data/types'
+import { EmptyState } from '../design/states/States'
 import { usePersona } from './persona'
-import type { Persona } from './personas'
 
 /**
- * UI-level gate for the prototype. Usability only — in the real app Postgres RLS is the
- * security boundary (security-and-privacy.md §4) and this component never replaces it.
+ * UI-level gate. Usability only — Postgres RLS is the security boundary
+ * (security-and-privacy.md §4) and this component never replaces it.
  */
-export function RoleGate({ allow, children }: { allow: Persona['role'][]; children: ReactNode }) {
+export function RoleGate({ allow, children }: { allow: Role[]; children: ReactNode }) {
   const { persona } = usePersona()
   if (allow.includes(persona.role)) return <>{children}</>
   return (
-    <div className="max-w-xl rounded-lg border border-line bg-surface p-5">
-      <h1 className="text-lg font-semibold">This page isn’t part of {persona.name.split(' ')[0]}’s view</h1>
-      <p className="mt-1 text-sm text-muted">
-        As {persona.label.toLowerCase()}, {persona.name.split(' ')[0]} wouldn’t see it. Use the “Viewing as”
-        menu to switch person.
-      </p>
-    </div>
+    <EmptyState
+      title="This page isn’t part of your portal"
+      body={`As ${persona.label.toLowerCase()}, you don’t have access to this page. Your own work is one click away.`}
+      action={
+        <Link to={persona.home} className="text-sm font-medium text-brand hover:underline">
+          Go to my portal
+        </Link>
+      }
+    />
   )
 }

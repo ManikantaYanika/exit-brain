@@ -19,6 +19,13 @@ export const org: Organization = { id: 'org-acme', name: 'Acme SaaS', sizeBand: 
 
 export const people: Person[] = [
   {
+    id: 'u-neha',
+    name: 'Neha Kapoor',
+    email: 'neha@acme.dev',
+    role: 'owner',
+    title: 'CTO',
+  },
+  {
     id: 'u-priya',
     name: 'Priya Nair',
     email: 'priya@acme.dev',

@@ -2,27 +2,27 @@ import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
 import type { ReactNode } from 'react'
 import type { ExitBrainApi } from '../data/api'
 import { ApiProvider } from '../data/ApiProvider'
+import type { AuthGateway } from '../data/auth'
 import { ToastProvider } from '../design/primitives/Toast'
-import { PersonaProvider } from './persona'
-import type { PersonaId } from './personas'
+import { AuthProvider } from './auth'
 
 export function AppProviders({
   api,
+  auth,
   queryClient,
-  persona,
   children,
 }: {
   api: ExitBrainApi
+  auth: AuthGateway
   queryClient: QueryClient
-  persona?: PersonaId
   children: ReactNode
 }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ApiProvider api={api}>
-        <PersonaProvider initial={persona}>
+        <AuthProvider gateway={auth}>
           <ToastProvider>{children}</ToastProvider>
-        </PersonaProvider>
+        </AuthProvider>
       </ApiProvider>
     </QueryClientProvider>
   )
