@@ -86,7 +86,9 @@ Enforcement: every row above is enforced **in the database (RLS)**, and mirrored
 ### 5.3 Service-role usage (allow-list)
 Only these functions may create a service-role client:
 `api-create-org`, `api-accept-invite`, `github-callback`, `github-webhook`, `job-runner`, `_shared/audit.ts`, `retention_cleanup`.
-Every other function uses `createClient(url, anonKey, { global: { headers: { Authorization: <caller JWT> } } })`. Reviewed by the `exit-brain-security-review` skill on each PR.
+Every other function uses the caller-scoped client (`withSupabase({ auth: 'user' })` → `ctx.supabase`, RLS applies). Reviewed by the `exit-brain-security-review` skill on each PR.
+
+**Day 1 update:** `api-create-org` and `api-accept-invite` do **not** need the service role — org creation, invitation creation and acceptance are SECURITY DEFINER RPCs (`create_organization`, `create_invitation`, `accept_invitation`) that check `auth.uid()` and roles inside the database and write their own audit rows. Remove them from the allow-list above. Invitation acceptance requires `auth.users.email_confirmed_at is not null`.
 
 ### 5.4 Secrets management (NFR-03)
 | Secret | Stored in | Never in |

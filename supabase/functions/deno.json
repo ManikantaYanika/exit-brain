@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 110
+  },
+  "lint": {
+    "rules": { "tags": ["recommended"] }
+  },
+  "tasks": {
+    "check": "deno check **/index.ts tests/*.ts",
+    "test": "deno test --allow-env tests/"
+  }
+}

@@ -236,6 +236,19 @@ grant execute on function
 to authenticated, service_role;
 
 -- -----------------------------------------------------------------------------
+-- Explicit Data API grants.
+-- [FACT] Supabase changelog 2026-04-28: new public tables are no longer exposed to the
+-- Data API by default (enforced on all projects 2026-10-30). So we grant explicitly,
+-- then narrow per table below. RLS still decides which ROWS are visible.
+-- -----------------------------------------------------------------------------
+grant usage on schema public to authenticated, service_role;
+grant select, insert, update, delete on
+  public.organizations, public.profiles, public.memberships, public.invitations,
+  public.employees, public.transitions, public.audit_logs
+to authenticated, service_role;
+grant usage, select on all sequences in schema public to service_role;
+
+-- -----------------------------------------------------------------------------
 -- Enable RLS on every tenant table
 -- -----------------------------------------------------------------------------
 alter table public.organizations enable row level security;
@@ -415,7 +428,11 @@ begin
     raise exception 'invalid invitation' using errcode = '22023';
   end if;
 
-  select lower(u.email) into v_email from auth.users u where u.id = v_uid;
+  -- Only a CONFIRMED email counts (T11): otherwise anyone could sign up with the
+  -- invitee's address without proving they own it.
+  select lower(u.email) into v_email
+  from auth.users u
+  where u.id = v_uid and u.email_confirmed_at is not null;
 
   select * into v_inv from public.invitations i
   where i.token_hash = encode(sha256(convert_to(p_token, 'UTF8')), 'hex')
@@ -426,6 +443,7 @@ begin
      or v_inv.accepted_at is not null
      or v_inv.revoked_at is not null
      or v_inv.expires_at < now()
+     or v_email is null
      or v_inv.email <> v_email then
     raise exception 'invalid invitation' using errcode = '22023';
   end if;
