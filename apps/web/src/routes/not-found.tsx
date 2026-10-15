@@ -1,6 +1,7 @@
 import { NotFound } from '../app/pages'
+import { appMeta } from './meta'
 
-export const meta = () => [{ title: 'Page not found — Exit Brain' }, { name: 'robots', content: 'noindex' }]
+export const meta = () => appMeta('Page not found')
 
 export default function Route() {
   return <NotFound />

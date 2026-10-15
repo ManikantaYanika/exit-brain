@@ -1,7 +1,7 @@
 import { SITE_URL } from './meta'
 
-// SPIKE (W1): resource route, prerendered to build/client/sitemap.xml at build time.
-const PATHS = ['/', '/spike-about']
+// Resource route, prerendered to build/client/sitemap.xml at build time.
+const PATHS = ['/']
 
 export function loader() {
   const urls = PATHS.map((p) => `  <url><loc>${SITE_URL}${p}</loc></url>`).join('\n')

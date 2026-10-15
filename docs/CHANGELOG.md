@@ -56,3 +56,12 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Verified: IBM Plex `@fontsource` 5.3.0 is OFL-1.1; latin woff2 for the five faces used ≈ 101 KB (measured from npm tarballs).
 - No code changed. Pending: W1 rendering spike.
 - W1 spike (branch `spike/rr-framework-prerender`, PR #10, not for merge): framework mode + prerender verified — static HTML with content and meta, sitemap, 404 via host rule, app routes on reload, 125/125 tests, CI 4/4 green; first-load JS 139 KB gzip on Home vs 159 KB today. Report: `docs/04-ux/website-w1-spike.md`. Recommendation GO, pending approval.
+
+## 2026-10-15 — W1b: framework mode hardened + self-hosted fonts (PR pending review)
+
+- Note: the W1 spike (PR #10) was merged to `main` before the "do not merge" decision; W1b fixes `main` forward.
+- Live auth: `createAuth()` + `createLazyGateway()` (Supabase loads lazily in the browser only); new CI job `live-auth` runs real sign-up → email confirmation → sign-in against a local Supabase stack.
+- Prototype build restored (`vite.prototype.config.ts`, `index.prototype.html`); route-parity test; `isbot` declared; root + per-route metadata (`appMeta` noindex); `/spike-about` removed.
+- Hosting: `deploy/nginx/exit-brain.conf` (SPA fallback, real 404, gzip) tested with real nginx (`scripts/ci/test-nginx.sh`); `scripts/verify-prerender.mjs` guard in CI.
+- D8: IBM Plex self-hosted (WOFF2 + OFL); 32-screen pixel comparison vs pre-spike build: no font or layout change (one 6-px rendering-noise diff).
+- CI (PR #11): all 5 jobs green incl. `live-auth`. Verified locally: clean `npm ci`, lint, format, typecheck, **135/135 tests**, build, prerender guard, secret scan, nginx 10/10, prototype build. Lighthouse (lab, HTTP/2): home 97–99, LCP 1.9–2.1 s. Report: `docs/04-ux/website-w1b-report.md`.

@@ -38,9 +38,52 @@ jobs:
       - run: npm run typecheck
       - run: npm run test
       - run: npm run build
+      - name: Prerendered pages keep their content and metadata
+        run: npm run verify:prerender
       - name: Scan bundle for secret material
         working-directory: .
         run: bash scripts/ci/scan-bundle.sh apps/web/build/client
+      - name: Nginx routing (SPA fallback, real 404, gzip)
+        working-directory: .
+        run: |
+          command -v nginx || (sudo apt-get update -qq && sudo apt-get install -y -qq nginx)
+          bash scripts/ci/test-nginx.sh apps/web/build/client 8089
+      - name: Single-file prototype still builds
+        run: npm run build:prototype
+
+  live-auth:
+    name: Live auth E2E (real Supabase Auth, local stack)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - uses: supabase/setup-cli@v3.0.1
+        with:
+          version: 2.121.0
+      # Auth (GoTrue), REST (PostgREST), gateway (Kong), Postgres and Mailpit only.
+      - run: supabase start -x realtime,storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor,postgres-meta
+      - name: Build the app in live auth mode against the local stack
+        working-directory: apps/web
+        run: |
+          eval "$(supabase status -o env | grep -E '^(API_URL|ANON_KEY)=')"
+          npm ci --no-audit --no-fund
+          VITE_AUTH_MODE=live VITE_SUPABASE_URL="$API_URL" VITE_SUPABASE_ANON_KEY="$ANON_KEY" npm run build
+      - name: Run sign-up, confirmation and sign-in in a real browser
+        working-directory: apps/web
+        run: |
+          npx playwright install --with-deps chromium
+          node ../../scripts/ci/serve-web.mjs "$PWD/build/client" 5173 &
+          for i in $(seq 1 20); do curl -sf -o /dev/null http://localhost:5173/ && break; sleep 0.5; done
+          node e2e/live-auth.mjs
+      - if: always()
+        run: supabase stop --no-backup
 
   functions:
     name: Edge Functions (fmt, lint, check, tests)
