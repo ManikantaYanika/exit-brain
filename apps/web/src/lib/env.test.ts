@@ -20,7 +20,7 @@ describe('parseEnv', () => {
     expect(() =>
       parseEnv({
         VITE_SUPABASE_URL: 'https://abc.supabase.co',
-        VITE_SUPABASE_ANON_KEY: 'sb_publishable_1234567890abcdefghij',
+        VITE_SUPABASE_ANON_KEY: 'sb_publishable_1234567890abcdefghij', // gitleaks:allow (fake test key)
       }),
     ).not.toThrow()
   })
@@ -45,7 +45,7 @@ describe('parseEnv', () => {
     expect(() =>
       parseEnv({
         VITE_SUPABASE_URL: 'https://abc.supabase.co',
-        VITE_SUPABASE_ANON_KEY: 'sb_secret_1234567890abcdefghij',
+        VITE_SUPABASE_ANON_KEY: 'sb_secret_1234567890abcdefghij', // gitleaks:allow (fake test key)
       }),
     ).toThrow(/service-role/)
   })
