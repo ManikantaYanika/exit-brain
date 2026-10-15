@@ -241,6 +241,9 @@ Team (roles, pending invites, revoke), Integrations (connection status, repos, d
 
 ---
 
+### J7 — Exit Brain platform admin (new, not in PRD yet)
+Internal console, separate from customer workspaces: staff sign-in (SSO + MFA, allowlist) → organisations list (metadata) → organisation detail (plan, usage, integration health) → platform health (jobs, AI errors, token spend) → plans/flags → deletion-request confirmation → staff audit log. **No access to evidence, answers or handovers** except through customer-granted, time-boxed, read-only **support access** that appears in the customer's audit log. Flowcharts: `04-ux/user-journeys.html`. Needs: PRD stories, security plan section (staff roles, support-access table + RLS), and a later phase after P6.
+
 ## 8. Screen inventory
 
 | ID | Screen | Roles | Key states |
