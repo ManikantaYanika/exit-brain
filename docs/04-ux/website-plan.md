@@ -86,7 +86,7 @@ Concept: **peach paper, logo ink, logo blue.** Peach and terracotta carry warmth
 | `site-band` | `#FDF0E7` | Alternate section bands | ink 15.47 · brand 4.84 |
 | `site-soft` | `#FBE3D3` | Highlight wells (no brand-coloured body text) | ink 14.01 · brand 4.39 ✗ text |
 | `site-glow` | `#E8875A` | Decorative only (glows, rings) | 2.48 on canvas ✗ text |
-| `site-accent-ink` | `#B4441F` | Terracotta: eyebrows, accent text | 5.27 canvas · 4.50 soft |
+| `site-accent-ink` | `#AD401C` | Terracotta: eyebrows, accent text | 5.66 canvas · 4.83 soft (was #B4441F: 4.497 on soft, failed the test) |
 | `site-surface` | `#FFFFFF` | Cards, forms, guide panel | ink 17.28 |
 | `site-ink` | `#0D1939` | Text (logo navy) | — |
 | `site-muted` | `#5A5F73` | Secondary text | 6.01 canvas · 5.13 soft |
@@ -95,7 +95,7 @@ Concept: **peach paper, logo ink, logo blue.** Peach and terracotta carry warmth
 | `site-violet` | `#733AEA` | Gradient end, motion | 5.67 canvas |
 | `site-spark` | `#46C2FE` | Motion only | never text |
 | `site-line` | `#EEDFD3` | Decorative dividers | — |
-| `site-line-strong` | `#9A8F88` | Input/control borders (≥ 3:1, WCAG 1.4.11) | 3.00 canvas · 3.15 surface |
+| `site-line-strong` | `#958A83` | Input/control borders (≥ 3:1, WCAG 1.4.11) | 3.20 canvas · 3.37 surface (was #9A8F88: 2.998, failed) |
 
 Rules: tokens live in `src/design/site-tokens.css`, scoped under `.eb-site` so they cannot leak into `/app`. A unit test enforces AA for every text pair and 3:1 for control borders. Product `tokens.css` is untouched.
 Type: IBM Plex Sans 400/500/600; display 600 at −0.02em; scale 0.875 · 1 · 1.125 · 1.375 · 1.75 · 2.25 · 3.25 rem (hero to 4 rem); body 17 px, max 68ch. IBM Plex Mono only for real artefacts (SHAs, paths).

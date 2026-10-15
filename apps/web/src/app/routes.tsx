@@ -5,8 +5,8 @@ import { SignInPage } from '../features/auth/SignInPage'
 import { SignUpPage } from '../features/auth/SignUpPage'
 import { DashboardPage } from '../features/dashboard/DashboardPage'
 import { InterviewPage } from '../features/interview/InterviewPage'
-import { LandingPage } from '../features/marketing/LandingPage'
-import { MarketingLayout } from '../features/marketing/MarketingLayout'
+import { HomePage } from '../features/site/home/HomePage'
+import { SiteLayout } from '../features/site/SiteLayout'
 import { OnboardingPage } from '../features/onboarding/OnboardingPage'
 import { SuccessorPage } from '../features/successor/SuccessorPage'
 import { TeamPage } from '../features/team/TeamPage'
@@ -27,7 +27,7 @@ const STAFF = ['owner', 'admin', 'manager'] as const
  * RoleGate only shapes the UI; RLS is the security boundary.
  */
 export const routes: RouteObject[] = [
-  { path: '/', element: <MarketingLayout />, children: [{ index: true, element: <LandingPage /> }] },
+  { path: '/', element: <SiteLayout />, children: [{ index: true, element: <HomePage /> }] },
   { path: '/signin', element: <SignInPage /> },
   { path: '/signup', element: <SignUpPage /> },
   { path: '/check-email', element: <CheckEmailPage /> },

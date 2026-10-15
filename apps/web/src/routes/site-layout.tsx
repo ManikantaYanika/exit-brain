@@ -1,5 +1,5 @@
-import { MarketingLayout } from '../features/marketing/MarketingLayout'
+import { SiteLayout } from '../features/site/SiteLayout'
 
 export default function Route() {
-  return <MarketingLayout />
+  return <SiteLayout />
 }

@@ -1,0 +1,35 @@
+/*
+ * Website tokens (website-plan.md §6, decision D2): peach paper, logo ink, logo blue. Light only.
+ * They re-define the product's --eb-* variables, but only for the public website: on the .eb-site
+ * wrapper and on the root element while a website page is shown (so body and overscroll match).
+ * The product app never renders .eb-site, so its tokens and dark mode are untouched.
+ * site-tokens.test.ts enforces WCAG contrast for every text pair and control border.
+ * This file is imported after tokens.css; equal specificity, so these win on website pages.
+ */
+:root:has(.eb-site),
+.eb-site {
+  --eb-canvas: #fff8f2;
+  --eb-surface: #ffffff;
+  --eb-surface-sunken: #fdf0e7;
+  --eb-ink: #0d1939;
+  --eb-muted: #5a5f73;
+  --eb-line: #eedfd3;
+  --eb-line-strong: #958a83;
+  --eb-brand: #1f5df0;
+  --eb-brand-hover: #1a4fd0;
+  --eb-brand-soft: #eaf0fe;
+  --eb-on-brand: #ffffff;
+  --eb-brand-2: #733aea;
+  --eb-spark: #46c2fe;
+  --eb-overlay: rgb(13 25 57 / 0.35);
+  --eb-shadow: 0 18px 40px -18px rgb(13 25 57 / 0.22);
+
+  /* website-only */
+  --eb-band: #fdf0e7;
+  --eb-soft: #fbe3d3;
+  --eb-glow: #e8875a;
+  --eb-accent-ink: #ad401c;
+  --eb-link: #1a4fd0;
+  --eb-on-ink-muted: #c9cfdc; /* secondary text on the navy trust band */
+  color-scheme: light;
+}

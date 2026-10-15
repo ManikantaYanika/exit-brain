@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './design/tokens.css';
+@import './design/site-tokens.css';
 @import './design/fonts/fonts.css';
 
 /* Tailwind utilities read the theme-aware tokens, so `bg-surface` etc. follow light/dark. */
@@ -30,6 +31,13 @@
   --color-unverified-soft: var(--eb-unverified-soft);
   --color-demo: var(--eb-demo);
   --color-demo-soft: var(--eb-demo-soft);
+  /* website-only (defined in site-tokens.css; unused in the product app) */
+  --color-band: var(--eb-band);
+  --color-soft: var(--eb-soft);
+  --color-glow: var(--eb-glow);
+  --color-accent-ink: var(--eb-accent-ink);
+  --color-link: var(--eb-link);
+  --color-on-ink-muted: var(--eb-on-ink-muted);
 
   --radius-control: 6px;
   --radius-panel: 10px;
@@ -160,5 +168,91 @@ h3 {
     animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Website: knowledge-circuit hero (website-plan.md §7). transform/opacity/dashoffset only. ---- */
+.eb-signal {
+  stroke-dasharray: 9 91;
+  stroke-dashoffset: 100;
+  animation: eb-signal 5.2s linear infinite;
+}
+@keyframes eb-signal {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.eb-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eb-node 4s ease-in-out infinite;
+}
+@keyframes eb-node {
+  50% {
+    transform: scale(1.35);
+  }
+}
+.eb-speed {
+  animation: eb-speed 2.6s ease-in-out infinite;
+}
+@keyframes eb-speed {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(7px);
+  }
+}
+.eb-door-light {
+  animation: eb-door 5.2s ease-in-out infinite;
+}
+@keyframes eb-door {
+  0%,
+  100% {
+    opacity: 0.78;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.eb-circuit-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eb-glow 14s ease-in-out infinite;
+}
+@keyframes eb-glow {
+  50% {
+    transform: scale(1.06) translateX(-6px);
+  }
+}
+.eb-circuit.is-paused * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eb-circuit * {
+    animation: none !important;
+  }
+  /* Static frame: signals shown part-way along their traces. */
+  .eb-signal {
+    stroke-dashoffset: 45;
+  }
+  .eb-circuit-toggle {
+    display: none;
+  }
+}
+
+/* Page changes on the website: a short cross-fade where View Transitions are supported. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

@@ -54,3 +54,9 @@ export function useAuth(): AuthState {
   if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>')
   return ctx
 }
+
+/** For components that may render outside <AuthProvider> (e.g. the 404 page on website routes). */
+// oxlint-disable-next-line react/only-export-components
+export function useOptionalAuth(): AuthState | null {
+  return useContext(AuthContext)
+}

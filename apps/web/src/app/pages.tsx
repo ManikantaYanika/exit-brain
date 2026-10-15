@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router'
 import { EmptyState } from '../design/states/States'
-import { useAuth } from './auth'
+import { useOptionalAuth } from './auth'
 import { usePersona } from './persona'
 
 /** /app sends each person to their own portal. */
@@ -10,7 +10,7 @@ export function RoleHome() {
 }
 
 export function NotFound() {
-  const { status } = useAuth()
+  const status = useOptionalAuth()?.status ?? 'signedOut'
   const home = status === 'signedIn' ? '/app' : '/'
   return (
     <div className="mx-auto max-w-xl px-4 py-16">
