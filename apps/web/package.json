@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:prototype": "node scripts/build-prototype-artifact.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",

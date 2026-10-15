@@ -1,7 +1,27 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Core palette — cool paper, navy ink, one brand ink-blue */
+  --color-paper: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-ink: #1b2333;
+  --color-muted: #5b6578;
+  --color-line: #dde2ea;
+  --color-brand: #3b3fb6;
+  --color-brand-soft: #eceefd;
+
+  /* Verification status (meaning only — never decoration) */
+  --color-supported: #1e7b4f;
+  --color-supported-soft: #e6f4ec;
+  --color-partial: #9a5d00;
+  --color-partial-soft: #fdf2df;
+  --color-conflicting: #b42318;
+  --color-conflicting-soft: #fde8e6;
+  --color-unverified: #5b6578;
+  --color-unverified-soft: #eef0f4;
 }
 
 :root {
@@ -9,5 +29,35 @@
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-paper font-sans text-ink antialiased;
+  font-feature-settings: 'ss02' 1;
+}
+
+/* Visible keyboard focus everywhere (NFR-09). */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The one orchestrated moment: evidence rows the user just cited flash once. */
+@keyframes cite-flash {
+  from {
+    background-color: var(--color-brand-soft);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.cite-flash {
+  animation: cite-flash 1.2s ease-out;
 }
