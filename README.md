@@ -57,4 +57,5 @@ No Docker? `scripts/local-db/test-db.sh` runs migrations + pgTAP against a plain
 | Database schema & RLS | `docs/02-architecture/database-schema.md` |
 | 7-day roadmap | `docs/05-plan/7-day-roadmap.md` |
 | Security & privacy | `docs/07-security/security-and-privacy.md` |
+| Website plan & copy | `docs/04-ux/website-plan.md`, `docs/04-ux/website-copy.md` |
 | Changelog | `docs/CHANGELOG.md` |

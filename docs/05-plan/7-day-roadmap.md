@@ -205,6 +205,28 @@
 
 ---
 
+## Website track (separate, added 15 Oct 2026)
+
+Runs alongside Days 1–7 and **must not block or regress MVP deliverables**. Plan, decisions and per-task acceptance criteria: `docs/04-ux/website-plan.md`.
+
+| Task | Scope | Gate |
+|---|---|---|
+| W0 | Docs: website plan, copy draft, doc updates | ⛔ owner review |
+| W1 | Rendering spike: React Router framework mode + prerender (isolated, not merged) | ⛔ owner review |
+| W2 | Site foundations: tokens, layout, meta, transitions | ⛔ owner review |
+| W3 | Knowledge-circuit motion with pause + reduced motion | — |
+| W4 | Home, How it works, Features | — |
+| W5 | Security, Why Exit Brain | ⛔ owner review |
+| W6 | About, Founder (hidden), Services | — |
+| W7 | Contact (inactive), Help, Privacy/Terms drafts | — |
+| W8 | Site guide v1 (no LLM) | ⛔ owner review |
+| W9 | Quality pass: E2E, axe, Lighthouse | — |
+| W10 | Contact backend (Supabase project + approvals needed) | ⛔ owner review |
+
+**Website DoD:** every page prerendered with real text and metadata; tokens AA by test; axe 0 serious issues; Lighthouse ≥ 90 perf/a11y per page (measured); motion pausable and reduced-motion safe; no unsupported claims (Security page traced to `07-security`); all existing product tests still pass.
+
+---
+
 ## Daily routine
 
 - Morning (15 min): re-read the day's DoD; create GitHub issues per task.

@@ -140,6 +140,13 @@ Metadata: IDs and counts only — no secrets, no answer text.
 - Render AI/markdown text with sanitisation (no raw `dangerouslySetInnerHTML` of LLM output).
 - CORS on Edge Functions: allow only the app origin(s), not `*`, in production.
 
+### 5.10 Public website (added 15 Oct 2026)
+- **Claims policy:** no certifications, badges, customer logos, testimonials, guarantees or unverified statistics. Security page statements must trace to this document or a cited source; unfinished controls are listed as "Not started" (see `04-ux/website-copy.md` §4).
+- **Site guide v1:** runs in the browser on a build-time index of website content; no LLM, no server calls, no storage of questions. An LLM version needs separate approval (provider terms, Edge Function, rate limit, budget cap).
+- **Contact form:** inactive until approved. When built: Edge Function only (Zod server-side, honeypot, Turnstile verified server-side, per-IP rate limit); table `contact_submissions` with RLS enabled and **no policies or client grants**. It has no `org_id` by design (not tenant data) — documented exception, covered by pgTAP. Consent line + privacy notice required. No secrets in the frontend.
+- **Third parties:** fonts self-hosted (proposed) so visitor IPs aren't sent to a font CDN; analytics only cookieless and only after approval.
+- [RESEARCH NEEDED] India DPDP Rules notice/consent dates and GDPR basis for contact data — verify before the form goes live; Privacy/Terms pages stay "Draft — pending legal review".
+
 ## 6. Pre-demo / pre-deploy security checklist (Day 7)
 
 - [ ] All pgTAP RLS tests green (cross-tenant + role + status-based).
