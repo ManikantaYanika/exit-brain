@@ -40,7 +40,7 @@ jobs:
       - run: npm run build
       - name: Scan bundle for secret material
         working-directory: .
-        run: bash scripts/ci/scan-bundle.sh apps/web/dist
+        run: bash scripts/ci/scan-bundle.sh apps/web/build/client
 
   functions:
     name: Edge Functions (fmt, lint, check, tests)
