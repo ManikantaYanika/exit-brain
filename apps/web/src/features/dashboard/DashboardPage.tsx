@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { usePersona } from '../../app/persona'
-import { ProgressBar, TransitionStatusText } from '../../components/ui/status'
+import { ProgressBar, TransitionStatusText } from '../../design/primitives/status'
 import { useProgress, useTransitions } from '../../data/hooks'
 import type { Transition } from '../../data/types'
 

@@ -1,4 +1,4 @@
-import { verificationLabel } from '../../components/ui/statusLabels'
+import { verificationLabel } from '../../design/primitives/statusLabels'
 import type { Evidence, Handover } from '../../data/types'
 
 /** Plain Markdown export (FR-19). Every statement keeps its citations and status. */

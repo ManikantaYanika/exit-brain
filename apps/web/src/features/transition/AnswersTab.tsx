@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { Citations } from '../../components/evidence/Citations'
-import { VerificationBadge } from '../../components/ui/status'
+import { VerificationBadge } from '../../design/primitives/status'
 import { useInterview, useVerifications } from '../../data/hooks'
 
 export function AnswersTab() {

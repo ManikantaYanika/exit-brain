@@ -1,0 +1,96 @@
+/*
+ * Exit Brain design tokens — single source of truth for colour.
+ * Palette sampled from the Exit Brain logo (docs/04-ux/ux-plan.md §4.1–4.2).
+ * Light values on :root; dark values in BOTH the media query and [data-theme='dark'],
+ * so the system setting and the in-app toggle each win correctly.
+ * tokens.test.ts parses this file and enforces WCAG contrast for every text pair.
+ */
+
+:root {
+  --eb-canvas: #f5f7fb;
+  --eb-surface: #ffffff;
+  --eb-surface-sunken: #eef1f7;
+  --eb-ink: #0d1939;
+  --eb-muted: #55617a;
+  --eb-line: #dce2ec;
+  --eb-line-strong: #8792a8;
+  --eb-brand: #1f5df0;
+  --eb-brand-hover: #1a4fd0;
+  --eb-brand-soft: #eaf0fe;
+  --eb-on-brand: #ffffff;
+  --eb-brand-2: #733aea;
+  --eb-spark: #46c2fe;
+  --eb-supported: #1e7b4f;
+  --eb-supported-soft: #e6f4ec;
+  --eb-partial: #9a5d00;
+  --eb-partial-soft: #fdf2df;
+  --eb-conflicting: #b42318;
+  --eb-conflicting-soft: #fde8e6;
+  --eb-unverified: #55617a;
+  --eb-unverified-soft: #eef1f7;
+  --eb-demo: #7a5a00;
+  --eb-demo-soft: #fff4cc;
+  --eb-overlay: rgb(13 25 57 / 0.45);
+  --eb-shadow: 0 8px 24px rgb(13 25 57 / 0.12);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --eb-canvas: #0a1022;
+    --eb-surface: #121a30;
+    --eb-surface-sunken: #0b1124;
+    --eb-ink: #e8ecf5;
+    --eb-muted: #9ba6bd;
+    --eb-line: #24304d;
+    --eb-line-strong: #5c6884;
+    --eb-brand: #7fa6ff;
+    --eb-brand-hover: #9bb9ff;
+    --eb-brand-soft: #1a2a55;
+    --eb-on-brand: #0a1022;
+    --eb-brand-2: #b49bff;
+    --eb-spark: #46c2fe;
+    --eb-supported: #4cc38a;
+    --eb-supported-soft: #12291e;
+    --eb-partial: #e7a94a;
+    --eb-partial-soft: #2e2210;
+    --eb-conflicting: #f0756a;
+    --eb-conflicting-soft: #33150f;
+    --eb-unverified: #9ba6bd;
+    --eb-unverified-soft: #1d2540;
+    --eb-demo: #e8c35a;
+    --eb-demo-soft: #2b2410;
+    --eb-overlay: rgb(0 0 0 / 0.6);
+    --eb-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --eb-canvas: #0a1022;
+  --eb-surface: #121a30;
+  --eb-surface-sunken: #0b1124;
+  --eb-ink: #e8ecf5;
+  --eb-muted: #9ba6bd;
+  --eb-line: #24304d;
+  --eb-line-strong: #5c6884;
+  --eb-brand: #7fa6ff;
+  --eb-brand-hover: #9bb9ff;
+  --eb-brand-soft: #1a2a55;
+  --eb-on-brand: #0a1022;
+  --eb-brand-2: #b49bff;
+  --eb-spark: #46c2fe;
+  --eb-supported: #4cc38a;
+  --eb-supported-soft: #12291e;
+  --eb-partial: #e7a94a;
+  --eb-partial-soft: #2e2210;
+  --eb-conflicting: #f0756a;
+  --eb-conflicting-soft: #33150f;
+  --eb-unverified: #9ba6bd;
+  --eb-unverified-soft: #1d2540;
+  --eb-demo: #e8c35a;
+  --eb-demo-soft: #2b2410;
+  --eb-overlay: rgb(0 0 0 / 0.6);
+  --eb-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
+}

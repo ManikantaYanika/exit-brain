@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useParams } from 'react-router'
 import { EvidenceProvider } from '../../components/evidence/EvidenceContext'
 import { EvidencePanel } from '../../components/evidence/EvidencePanel'
-import { TransitionStatusText } from '../../components/ui/status'
+import { TransitionStatusText } from '../../design/primitives/status'
 import { useEvidence, useTransition } from '../../data/hooks'
 
 const tabs = [
