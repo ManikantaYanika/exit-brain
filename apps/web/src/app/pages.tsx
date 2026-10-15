@@ -1,12 +1,28 @@
-import { Link } from 'react-router'
+import { Link, Navigate } from 'react-router'
+import { EmptyState } from '../design/states/States'
+import { useAuth } from './auth'
+import { usePersona } from './persona'
+
+/** /app sends each person to their own portal. */
+export function RoleHome() {
+  const { persona } = usePersona()
+  return <Navigate to={persona.home} replace />
+}
 
 export function NotFound() {
+  const { status } = useAuth()
+  const home = status === 'signedIn' ? '/app' : '/'
   return (
-    <section className="space-y-2">
-      <h1 className="text-xl font-semibold">Page not found</h1>
-      <Link to="/" className="text-brand underline">
-        Go to transitions
-      </Link>
-    </section>
+    <div className="mx-auto max-w-xl px-4 py-16">
+      <EmptyState
+        title="Page not found"
+        body="The link may be old, or the page may have moved."
+        action={
+          <Link to={home} className="text-sm font-medium text-brand hover:underline">
+            {status === 'signedIn' ? 'Go to my portal' : 'Go to the home page'}
+          </Link>
+        }
+      />
+    </div>
   )
 }

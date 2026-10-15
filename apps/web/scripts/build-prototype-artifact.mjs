@@ -23,7 +23,8 @@ if (js.includes('</script')) throw new Error('bundle contains </script; cannot i
 
 const inlined = { css, js }
 
-const html = `<title>Exit Brain Prototype</title>
+const html = `<meta charset="utf-8">
+<title>Exit Brain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
