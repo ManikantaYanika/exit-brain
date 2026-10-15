@@ -1,6 +1,6 @@
 # Exit Brain — Product UX Plan & Design System
 
-> Version 0.1 · 15 Oct 2026 · Status: **Proposed, awaiting approval** · Owner: Mani
+> Version 0.2 · 15 Oct 2026 · Status: **Approved by Mani (15 Oct)** — palette tuned to the logo · Owner: Mani
 > Replaces the missing `04-ux/screens.md`. Builds on `01-product/PRD.md`, `05-plan/7-day-roadmap.md`,
 > `02-architecture/database-schema.md`, `07-security/security-and-privacy.md` and the Day 1.5 prototype (PR #3).
 > Labels: **[FACT] [ASSUMPTION] [RECOMMENDATION] [DECISION NEEDED]**
@@ -66,32 +66,45 @@ Evidence-first UI (citation pills → evidence panel), risk as bars not colour, 
 
 ## 4. Design system
 
-### 4.1 Brand inputs **[DECISION NEEDED]**
+### 4.1 Brand inputs (from the logo)
 
-The Exit Brain logo was not attached to the conversation or found in Drive. **Colours below are a proposal and will be re-tuned to the logo** (brand hue, and whether the mark is used on dark). Until then the app uses a neutral wordmark placeholder.
+Logo: `exit_brain_logo.png` (project files). Colours sampled from the file, not guessed:
+
+| Logo element | Hex | Role in the UI |
+|---|---|---|
+| "Exit" wordmark navy | `#0D1939` | `ink` (light theme text) |
+| "Brain" / mark blue | `#1F5DF0` | `brand` (primary actions, links, focus) |
+| Mark / "Brain" violet | `#733AEA` | `brand-2` — gradient end only (wordmark, hero highlight, readiness meter) |
+| Speed lines cyan | `#46C2FE` | `spark` — decorative only (hero motion, illustrations); never text |
+| Mark deep core | `#081D71` | Dark-theme hero depth |
+
+Usage rules: the brand gradient (`#1F5DF0 → #733AEA`) appears in the wordmark, the landing hero and progress/readiness fills — nowhere else. The wordmark is rendered as live text ("Exit" in `ink`, "Brain" in the gradient) beside the mark image, because the navy "Exit" in the PNG disappears on dark backgrounds. Assets: `apps/web/public/brand/` (transparent full logo, transparent mark, 32/192/512 px icons).
 
 ### 4.2 Colour tokens — light (default) and dark
 
-Concept: *archival ink on cool paper.* One brand hue; neutrals biased toward it; status colours carry meaning only.
+Concept: *the logo's ink and blue on cool paper.* One brand hue for actions; violet only inside the gradient; status colours carry meaning only.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `canvas` | `#F5F6F8` | `#0F131A` | App background |
-| `surface` | `#FFFFFF` | `#161B24` | Panels, tables, forms |
-| `surface-sunken` | `#EEF0F4` | `#0B0E13` | Code blocks, evidence wells (inputs stay on `surface` so borders keep 3:1) |
-| `ink` | `#151B28` | `#E7EAF0` | Primary text |
-| `ink-muted` | `#5A6477` | `#9AA3B5` | Secondary text |
-| `line` | `#DCE1E9` | `#262D3A` | Dividers, panel borders (decorative) |
-| `line-strong` | `#8790A3` | `#636D80` | Input, checkbox and focusable control borders (≥ 3:1, WCAG 1.4.11) |
-| `brand` | `#3A3FBF` | `#8B90F5` | Primary actions, focus, links |
-| `brand-soft` | `#ECEDFC` | `#22264A` | Selected rows, hover wells |
+| `canvas` | `#F5F7FB` | `#0A1022` | App background |
+| `surface` | `#FFFFFF` | `#121A30` | Panels, tables, forms, inputs |
+| `surface-sunken` | `#EEF1F7` | `#0B1124` | Code blocks, evidence wells |
+| `ink` | `#0D1939` | `#E8ECF5` | Primary text |
+| `ink-muted` | `#55617A` | `#9BA6BD` | Secondary text |
+| `line` | `#DCE2EC` | `#24304D` | Dividers, panel borders (decorative) |
+| `line-strong` | `#8792A8` | `#5C6884` | Input, checkbox and focusable control borders (≥ 3:1, WCAG 1.4.11) |
+| `brand` | `#1F5DF0` | `#7FA6FF` | Primary actions, links, focus |
+| `brand-hover` | `#1A4FD0` | `#9BB9FF` | Hover/pressed primary |
+| `brand-soft` | `#EAF0FE` | `#1A2A55` | Selected rows, hover wells |
+| `brand-2` | `#733AEA` | `#B49BFF` | Gradient end only |
+| `spark` | `#46C2FE` | `#46C2FE` | Decorative motion only |
 | `supported` / soft | `#1E7B4F` / `#E6F4EC` | `#4CC38A` / `#12291E` | Verified |
 | `partial` / soft | `#9A5D00` / `#FDF2DF` | `#E7A94A` / `#2E2210` | Partly supported |
 | `conflicting` / soft | `#B42318` / `#FDE8E6` | `#F0756A` / `#33150F` | Conflicting, destructive |
-| `unverified` / soft | `#5A6477` / `#EEF0F4` | `#9AA3B5` / `#1D232E` | No record |
+| `unverified` / soft | `#55617A` / `#EEF1F7` | `#9BA6BD` / `#1D2540` | No record |
 | `demo` / soft | `#7A5A00` / `#FFF4CC` | `#E8C35A` / `#2B2410` | Demo data labels only |
 
-Rules: risk is never coloured (bars); `demo` yellow is used for nothing else; all text pairs meet **WCAG 2.1 AA** (4.5:1 body, 3:1 large/UI) — checked by a unit test over the token table. Verified for this proposal: every text/background pair above is ≥ 4.6:1 in both themes; `line` is decorative only (1.3:1), so control boundaries use `line-strong` (≥ 3:1).
+Rules: risk is never coloured (bars); `demo` yellow is used for nothing else; all text pairs meet **WCAG 2.1 AA**. Verified for this palette: every text/background pair is ≥ 4.7:1 in both themes (white on brand 5.41, brand on surface 5.41, dark brand on surface 7.24); `line-strong` is 3.13 / 3.10 against surface. A unit test over the token table keeps it that way.
 
 ### 4.3 Typography
 
@@ -297,9 +310,13 @@ After P6, Days 2–6 of the roadmap implement `data/live/*` against Supabase wit
 
 ---
 
-## 11. Open decisions for Mani
+## 11. Decisions (15 Oct 2026)
 
-1. **Logo** — please attach the logo file(s) (SVG preferred, or PNG ≥ 512px, plus any brand colours). Palette in §4.2 will be tuned to it.
-2. **Product name styling** — "Exit Brain" (two words) everywhere? Domain for links/emails?
-3. **Pricing on landing** — show "$299 per departure (pilot)" or "Pilot pricing on request"? PRD marks $299 as an assumption, so the plan defaults to "on request".
-4. **Demo access** — public demo (anyone with the link) or only from a sign-in? Plan defaults to public, data never leaves the browser.
+| Topic | Decision | Follow-up |
+|---|---|---|
+| Logo | Use `exit_brain_logo.png`; palette above derived from it | — |
+| Name | "Exit Brain", two words | — |
+| Domain | Buy later | Until then links use the deploy URL; set `APP_ORIGIN` when bought |
+| Pricing on landing | **$149 per departure** (pilot) | Supersedes the $299 assumption in PRD §3.4 → **update PRD §3.4 and `09-business/go-to-market.md`**; still an assumption to validate |
+| Sign-in | **Real Supabase Auth** (sign-up, email confirmation, sign-in, magic link) with real organisations, members and invitations (Day 1 RPCs). Transition content (evidence, areas, answers, handover) stays **demo data**, labelled, until Days 2–6 wire it | Needs a Supabase dev project; `AuthGateway` has a demo implementation so the UI and tests run without one |
+| Public demo | Also keep `/demo` (no account) for quick customer walkthroughs | — |
