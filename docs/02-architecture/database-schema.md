@@ -1,6 +1,6 @@
 # Exit Brain — Database Schema & Relationships
 
-> Version 0.1 · 15 Oct 2026 · Status: Draft (nothing implemented yet)
+> Version 0.2 · 15 Oct 2026 · Status: Day 1 tables implemented (`supabase/migrations/20261015000001_core.sql`, `…02_profile_trigger.sql`), 44 pgTAP tests passing
 > Source docs: `01-product/PRD.md`, `05-plan/7-day-roadmap.md`, `07-security/security-and-privacy.md`
 > Labels: **[FACT] [ASSUMPTION] [RECOMMENDATION] [RESEARCH NEEDED]** — see README §4.
 
@@ -9,7 +9,7 @@
 | # | Principle | Label |
 |---|---|---|
 | P1 | Every tenant table has `org_id uuid not null references organizations(id) on delete cascade` and **RLS enabled**. No exceptions. | [RECOMMENDATION] (non-negotiable project rule) |
-| P2 | RLS policies use helper functions (`is_member`, `has_role`, `can_access_transition`) that are `security definer`, `stable`, with `set search_path = ''`, to avoid recursive RLS on `memberships`. | [RECOMMENDATION] |
+| P2 | RLS policies use helper functions (`private.is_member`, `private.has_role`, `private.can_access_transition`, `private.shares_org_with`) that are `security definer`, `stable`, with `set search_path = ''`, to avoid recursive RLS on `memberships`. They live in schema **`private`**, which the Data API does not expose; `execute` granted to `authenticated` only (policies need it). | [RECOMMENDATION] (changed Day 1: was `public`) |
 | P3 | Supabase `service_role` key **bypasses RLS**. It is used only inside Edge Functions for: org creation, invite acceptance, audit inserts, job runner. All other Edge Functions query with the **caller's JWT** so RLS still applies. | [FACT] bypass behaviour — [Supabase RLS docs](https://supabase.com/docs/guides/database/postgres/row-level-security); usage rule = [RECOMMENDATION] |
 | P4 | Primary keys `uuid default gen_random_uuid()`; timestamps `timestamptz default now()`. `audit_logs` uses `bigint generated always as identity` (high volume, ordered). | [RECOMMENDATION] |
 | P5 | Store **excerpts, not source code** (NFR-04). Evidence excerpts truncated (commit message ≤ 2,000 chars, PR/issue body ≤ 4,000 chars). | [RECOMMENDATION] — limits are [ASSUMPTION], tune on Day 2 |
@@ -162,7 +162,15 @@ Status transitions enforced in Edge Functions (not by clients); clients cannot u
 
 `revoke update, delete on audit_logs from authenticated, anon;` Inserts only through the `_shared/audit.ts` helper (service role).
 
-## 5. Helper functions (Day 1)
+## 5. Helper functions & RPCs (Day 1)
+
+> **Day 1 change:** helpers moved to schema `private` (code below shows the original `public.` names; the migration is authoritative). Multi-row writes are SECURITY DEFINER RPCs called with the **user's JWT**, so Edge Functions don't need the service role for them:
+> - `public.create_organization(name, size_band, timezone)` → inserts org + owner membership + `org.created` audit atomically (FR-02).
+> - `public.accept_invitation(raw_token)` → hashes token, checks unused / unexpired / unrevoked / email matches the caller, creates membership, audits `member.joined` (FR-03, T11). Every failure returns the same `invalid invitation` error.
+> - There is **no client-callable audit writer**: a `log_audit()` RPC was drafted and removed because any member could forge events. Audit rows come only from these RPCs and from Edge Functions via `_shared/audit.ts` (service role).
+> - Extra integrity trigger `private.check_transition_same_org`: a transition's employee and successor must belong to the same org; it refuses non-writers first so it can't be used to probe another org's membership.
+> - Migration files use Supabase CLI timestamp names (`20261015000001_core.sql`), not `0001_core.sql`.
+
 
 ```sql
 -- Is the current user a member of this org?
