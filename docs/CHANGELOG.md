@@ -65,3 +65,10 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Hosting: `deploy/nginx/exit-brain.conf` (SPA fallback, real 404, gzip) tested with real nginx (`scripts/ci/test-nginx.sh`); `scripts/verify-prerender.mjs` guard in CI.
 - D8: IBM Plex self-hosted (WOFF2 + OFL); 32-screen pixel comparison vs pre-spike build: no font or layout change (one 6-px rendering-noise diff).
 - CI (PR #11): all 5 jobs green incl. `live-auth`. Verified locally: clean `npm ci`, lint, format, typecheck, **135/135 tests**, build, prerender guard, secret scan, nginx 10/10, prototype build. Lighthouse (lab, HTTP/2): home 97–99, LCP 1.9–2.1 s. Report: `docs/04-ux/website-w1b-report.md`.
+
+## 2026-10-15 — W2: website foundations + logo-inspired hero (PR pending review)
+
+- Website tokens (peach, light only) scoped to `.eb-site`; contrast test caught and fixed two values. Site layout, mobile menu, footer status line, skip link, view transitions, robots.txt.
+- Hero "knowledge circuit" from the logo with pause control, off-screen/hidden-tab pause and reduced-motion frame (CSS/SVG, no animation library).
+- Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
+- Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.

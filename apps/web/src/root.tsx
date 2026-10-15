@@ -1,18 +1,12 @@
 import type { ReactNode } from 'react'
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
-import { AppProviders } from './app/AppProviders'
-import { createAuth } from './app/createAuth'
-import { createMockApi } from './data/mockApi'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { api, queryClient } from './app/runtime'
+import { ApiProvider } from './data/ApiProvider'
+import { ToastProvider } from './design/primitives/Toast'
 import plexSans400 from './design/fonts/ibm-plex-sans-latin-400-normal.woff2?url'
 import plexSans600 from './design/fonts/ibm-plex-sans-latin-600-normal.woff2?url'
 import appCss from './index.css?url'
-import { createQueryClient } from './lib/queryClient'
-
-// Created once per page load. In live mode, Supabase is loaded lazily in the browser (createAuth).
-// Product data stays MOCK DATA until the live data adapter lands (roadmap Days 2–6).
-const api = createMockApi()
-const auth = createAuth()
-const queryClient = createQueryClient()
 
 // Applies the saved theme before first paint, so dark-mode users don't see a light flash.
 const themeScript = `try{var t=localStorage.getItem('eb-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
@@ -55,8 +49,13 @@ export function Layout({ children }: { children: ReactNode }) {
 
 export default function Root() {
   return (
-    <AppProviders api={api} auth={auth} queryClient={queryClient}>
-      <Outlet />
-    </AppProviders>
+    // AuthProvider lives in routes/auth-scope.tsx, around sign-in and app routes only.
+    <QueryClientProvider client={queryClient}>
+      <ApiProvider api={api}>
+        <ToastProvider>
+          <Outlet />
+        </ToastProvider>
+      </ApiProvider>
+    </QueryClientProvider>
   )
 }

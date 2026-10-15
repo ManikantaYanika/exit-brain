@@ -7,5 +7,5 @@ import type { Config } from '@react-router/dev/config'
 export default {
   appDirectory: 'src',
   ssr: false,
-  prerender: ['/', '/sitemap.xml', '/404'],
+  prerender: ['/', '/sitemap.xml', '/robots.txt', '/404'],
 } satisfies Config

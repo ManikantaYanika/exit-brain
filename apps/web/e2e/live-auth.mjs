@@ -1,5 +1,5 @@
 // Live auth E2E against a real local Supabase stack (CI job "live-auth").
-// Covers: sign-up -> confirmation email (Mailpit) -> confirmed session -> no-workspace screen ->
+// Covers: website pages load no Supabase code; sign-up -> confirmation email (Mailpit) -> confirmed session -> no-workspace screen ->
 // sign-out -> wrong password rejected -> sign-in again; unconfirmed account cannot sign in.
 // Env: E2E_BASE (app origin, default http://localhost:5173), MAILPIT (default http://127.0.0.1:54324)
 import { chromium } from 'playwright'
@@ -61,6 +61,16 @@ const browser = await chromium.launch()
 const page = await (await browser.newContext()).newPage()
 const pageErrors = []
 page.on('pageerror', (e) => pageErrors.push(e.message))
+
+await step('website pages do not download the Supabase client', async () => {
+  const p0 = await (await browser.newContext()).newPage()
+  const requested = []
+  p0.on('request', (r) => requested.push(r.url()))
+  await p0.goto(`${BASE}/`, { waitUntil: 'networkidle' })
+  const supabase = requested.filter((u) => /\/assets\/supabase/i.test(u))
+  if (supabase.length) throw new Error(`home requested ${supabase.join(', ')}`)
+  await p0.close()
+})
 
 await step('live mode: no demo accounts offered on sign-in', async () => {
   await page.goto(`${BASE}/signin`)

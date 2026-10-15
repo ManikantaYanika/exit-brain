@@ -1,6 +1,6 @@
 import { ShieldCheck } from 'lucide-react'
-import { DemoLabel } from '../../design/primitives/Demo'
-import { RiskBars, VerificationBadge } from '../../design/primitives/status'
+import { DemoLabel } from '../../../design/primitives/Demo'
+import { RiskBars, VerificationBadge } from '../../../design/primitives/status'
 
 const COMMITS = [
   { n: 1, sha: 'b81d04e', msg: 'cron: move nightly sync to 02:00 IST to avoid backup window', date: '2 Mar' },

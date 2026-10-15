@@ -18,7 +18,9 @@ describe('page metadata', () => {
 
   it('every page route module exports meta', async () => {
     const dir = join(process.cwd(), 'src/routes')
-    const pages = readdirSync(dir).filter((f) => f.endsWith('.tsx') && !['site-layout.tsx'].includes(f))
+    const pages = readdirSync(dir).filter(
+      (f) => f.endsWith('.tsx') && !['site-layout.tsx', 'auth-scope.tsx'].includes(f),
+    )
     for (const f of pages) {
       const mod = (await import(`./${f.replace('.tsx', '')}.tsx`)) as { meta?: () => unknown[] }
       expect(typeof mod.meta, f).toBe('function')

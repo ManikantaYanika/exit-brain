@@ -1,4 +1,4 @@
-import { LandingPage } from '../features/marketing/LandingPage'
+import { HomePage } from '../features/site/home/HomePage'
 import { pageMeta } from './meta'
 
 export const meta = () =>
@@ -10,5 +10,5 @@ export const meta = () =>
   })
 
 export default function Route() {
-  return <LandingPage />
+  return <HomePage />
 }

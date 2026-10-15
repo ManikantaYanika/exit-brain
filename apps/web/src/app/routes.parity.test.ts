@@ -31,7 +31,7 @@ function fromRuntime(entries: RouteObject[], base = '/'): string[] {
 }
 
 /** Build-only routes with no runtime equivalent: prerendered resource and the static 404 file. */
-const BUILD_ONLY = new Set(['/sitemap.xml', '/404'])
+const BUILD_ONLY = new Set(['/sitemap.xml', '/robots.txt', '/404'])
 
 describe('route parity (src/routes.ts ↔ src/app/routes.tsx)', () => {
   const config = buildRoutes as unknown as ConfigEntry[]
