@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && react-router build",
     "typecheck": "tsc -b && tsc -p tsconfig.test.json",
     "lint": "oxlint --deny-warnings",
     "format": "prettier --write .",
@@ -22,9 +22,11 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router": "^8.4.0",
-    "zod": "^4.6.7"
+    "zod": "^4.6.7",
+    "isbot": "^5"
   },
   "devDependencies": {
+    "@react-router/dev": "8.4.0",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
