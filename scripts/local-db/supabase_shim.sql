@@ -11,6 +11,7 @@ create schema auth;
 create table auth.users (
   id uuid primary key default gen_random_uuid(),
   email text unique,
+  email_confirmed_at timestamptz,
   raw_user_meta_data jsonb default '{}'::jsonb,
   created_at timestamptz default now()
 );
@@ -23,7 +24,6 @@ $$;
 grant usage on schema auth to anon, authenticated, service_role;
 grant execute on function auth.uid() to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
--- Supabase default: API roles get table privileges in public; RLS does the filtering.
-alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
-alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
-alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
+-- Since 2026-10-30 Supabase no longer auto-grants new public tables to API roles
+-- (changelog 2026-04-28). We mirror that: NO default privileges here, so migrations
+-- must grant explicitly — tests fail if they forget.

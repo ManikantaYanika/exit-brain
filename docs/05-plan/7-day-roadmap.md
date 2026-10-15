@@ -32,7 +32,7 @@
 
 **Tasks**
 1. Create monorepo (`apps/web`, `supabase/`, `prompts/`, `evals/`, `docs/`); init Git; `.gitignore`; `.env.example`.
-2. `npm create vite@latest apps/web -- --template react-ts`; add Tailwind, React Router, TanStack Query, Zod, supabase-js; ESLint + Prettier; Vitest.
+2. `npm create vite@latest apps/web -- --template react-ts`; add Tailwind, React Router, TanStack Query, Zod, supabase-js; oxlint + Prettier; Vitest. *(Day 1: Vite template now ships oxlint instead of ESLint — kept.)*
 3. `supabase init` → `supabase start` (local stack).
 4. Migration `0001_core.sql`: `org_role` enum, `organizations`, `profiles`, `memberships`, `invitations`, `employees`, `transitions` (+ enum), `audit_logs`; helper functions `is_member`, `has_role`; RLS enabled + policies for these tables.
 5. Migration `0002_profile_trigger.sql`: create `profiles` row on `auth.users` insert.
