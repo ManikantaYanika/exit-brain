@@ -55,3 +55,4 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Updated PRD (§2.1 website scope), roadmap (Website track), ux-plan §11 (website tokens and motion are website-only), security §5.10 (claims policy, site guide, contact form, third parties), README docs table.
 - Verified: IBM Plex `@fontsource` 5.3.0 is OFL-1.1; latin woff2 for the five faces used ≈ 101 KB (measured from npm tarballs).
 - No code changed. Pending: W1 rendering spike.
+- W1 spike (branch `spike/rr-framework-prerender`, PR #10, not for merge): framework mode + prerender verified — static HTML with content and meta, sitemap, 404 via host rule, app routes on reload, 125/125 tests, CI 4/4 green; first-load JS 139 KB gzip on Home vs 159 KB today. Report: `docs/04-ux/website-w1-spike.md`. Recommendation GO, pending approval.

@@ -132,6 +132,8 @@ W1 spike compares:
 - **A — React Router framework mode + prerender** (one codebase, one component library, migration of route config).
 - **B — Separate Astro site** for marketing, app unchanged (two builds/deploys, two frameworks), only if A is risky.
 
+**W1 result (15 Oct 2026):** spike passed every check (static content + meta + sitemap + 404, app routes on reload, 125/125 tests, CI 4/4). Recommendation: **GO with A** via a clean migration PR (W1b) that also fixes the spike's known limitations. Full report: `website-w1-spike.md`. ⛔ Awaiting owner approval.
+
 ### 8.2 Fonts (D8) [FACT unless marked]
 
 - Licence: IBM Plex is SIL Open Font License 1.1 (`@fontsource/ibm-plex-sans@5.3.0`, `@fontsource/ibm-plex-mono@5.3.0`: `OFL-1.1`) — self-hosting and redistribution allowed with the licence file.
@@ -196,6 +198,7 @@ Each task = branch → PR to `main` → CI green → owner merges. "Done" means 
 |---|---|---|
 | W0 ⛔ | Docs: this plan, copy draft, PRD/roadmap/UX/security updates | Docs merged; labels on every claim; no code |
 | W1 ⛔ | Rendering spike (isolated branch, not merged) | Report shows for `/` and one more page: real text in built HTML, title/description/canonical/OG present, sitemap generated, unknown path → 404 page (and status where host allows), `/signin` `/demo` `/app/*` work on reload, **all existing tests pass**, CI unchanged. Go/no-go with evidence; Astro comparison if no-go |
+| W1b ⛔ | Migration PR (after W1 approval): framework mode + prerender, live auth wired client-side, prototype build kept, route-parity test, host config docs | Same checks as W1 plus: live auth adapter tests pass, `build:prototype` still produces the artifact, route-parity test, CI 4/4 green |
 | W2 ⛔ | Site foundations: tokens + contrast test, fonts (if approved), SiteLayout/header/mobile menu/footer, PageMeta, transitions, sitemap/robots | Tokens AA by test; keyboard-only navigation works with visible focus; no horizontal scroll at 375 px; screenshots 375/768/1280 |
 | W3 | Knowledge-circuit motion | Pause control works and is remembered; reduced-motion shows static frame (tested); pauses off-screen/hidden; measured LCP/CLS/INP on Home recorded; Lighthouse perf ≥ 90 |
 | W4 | Home, How it works, Features | Copy = approved draft; MOCK DATA labels on artefacts; heading order and link tests |
