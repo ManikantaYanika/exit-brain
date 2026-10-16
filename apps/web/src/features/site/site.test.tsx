@@ -6,12 +6,24 @@ import { createMemoryRouter, RouterProvider } from 'react-router'
 import { afterEach, describe, expect, it } from 'vitest'
 import { KnowledgeCircuit } from './motion/KnowledgeCircuit'
 import { HomePage } from './home/HomePage'
+import { FEATURE_GROUPS, FeaturesPage } from './pages/FeaturesPage'
+import { HowItWorksPage } from './pages/HowItWorksPage'
 import { HEADER_NAV } from './nav'
 import { SiteLayout } from './SiteLayout'
 
 function renderSite(path = '/') {
   const router = createMemoryRouter(
-    [{ path: '/', element: <SiteLayout />, children: [{ index: true, element: <HomePage /> }] }],
+    [
+      {
+        path: '/',
+        element: <SiteLayout />,
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: 'how-it-works', element: <HowItWorksPage /> },
+          { path: 'features', element: <FeaturesPage /> },
+        ],
+      },
+    ],
     { initialEntries: [path] },
   )
   render(<RouterProvider router={router} />)
@@ -32,9 +44,12 @@ describe('website layout', () => {
     const nav = screen.getAllByRole('navigation', { name: 'Main' })[0]!
     const hrefs = within(nav)
       .getAllByRole('link')
-      .map((a) => a.getAttribute('href'))
-    expect(hrefs).toEqual(HEADER_NAV.map((n) => n.href.slice(1)))
-    for (const h of hrefs) expect(document.querySelector(h!)).not.toBeNull()
+      .map((a) => a.getAttribute('href')!)
+    expect(hrefs).toEqual(HEADER_NAV.map((n) => (n.href.startsWith('/#') ? n.href.slice(1) : n.href)))
+    for (const h of hrefs) {
+      if (h.startsWith('#')) expect(document.querySelector(h), h).not.toBeNull()
+      else expect(['/how-it-works', '/features']).toContain(h)
+    }
   })
 
   it('mobile menu opens, traps focus, and closes with Escape', async () => {
@@ -102,6 +117,76 @@ describe('knowledge circuit', () => {
     for (const [, , body] of frames) {
       const props = [...body!.matchAll(/([a-z-]+):/g)].map((m) => m[1])
       for (const p of props) expect(['transform', 'opacity', 'stroke-dashoffset']).toContain(p)
+    }
+  })
+})
+
+describe('how it works page', () => {
+  it('shows the five steps in order, each with what Exit Brain never does', () => {
+    renderSite('/how-it-works')
+    expect(screen.getByRole('heading', { level: 1, name: 'How a handover works' })).toBeInTheDocument()
+    const steps = screen
+      .getAllByRole('heading', { level: 2 })
+      .slice(0, 5)
+      .map((h) => h.textContent)
+    expect(steps).toEqual([
+      'Connect GitHub, read-only',
+      'Find what only one person knows',
+      'Interview with evidence',
+      'Verify against the records',
+      'Approve and hand over',
+    ])
+    expect(screen.getAllByText(/never/i).length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('labels every product example as MOCK DATA', () => {
+    renderSite('/how-it-works')
+    expect(screen.getAllByText('MOCK DATA, fictional company')).toHaveLength(5)
+  })
+
+  it('shows all four verification statuses and marks the timeline as an example', () => {
+    renderSite('/how-it-works')
+    for (const s of ['Supported', 'Partly supported', 'Conflicting', 'Unverified']) {
+      expect(screen.getAllByText(s).length).toBeGreaterThan(0)
+    }
+    expect(screen.getByText(/An illustration, not a promise/)).toBeInTheDocument()
+  })
+
+  it('marks the current page in the header', () => {
+    renderSite('/how-it-works')
+    const nav = screen.getAllByRole('navigation', { name: 'Main' })[0]!
+    expect(within(nav).getByRole('link', { name: 'How it works' })).toHaveAttribute('aria-current', 'page')
+    expect(within(nav).getByRole('link', { name: 'Features' })).not.toHaveAttribute('aria-current')
+  })
+
+  it('section links on other pages go back to the home page', () => {
+    renderSite('/how-it-works')
+    const nav = screen.getAllByRole('navigation', { name: 'Main' })[0]!
+    expect(within(nav).getByRole('link', { name: 'Security' })).toHaveAttribute('href', '/#trust')
+  })
+})
+
+describe('features page', () => {
+  it('uses only the two honest status labels', () => {
+    renderSite('/features')
+    const statuses = FEATURE_GROUPS.flatMap((g) => g.features.map((f) => f.status))
+    expect(new Set(statuses)).toEqual(new Set(['mvp', 'later']))
+    expect(screen.getAllByText('MVP scope').length).toBe(statuses.filter((s) => s === 'mvp').length)
+    expect(screen.getAllByText('Later').length).toBe(statuses.filter((s) => s === 'later').length)
+  })
+
+  it('lists Slack, Jira, Drive and SSO as later, not available', () => {
+    renderSite('/features')
+    for (const name of ['Slack, Jira, Google Drive', 'SSO/SAML and SCIM']) {
+      const item = screen.getByRole('heading', { level: 3, name }).closest('li')!
+      expect(within(item).getByText('Later')).toBeInTheDocument()
+    }
+  })
+
+  it('covers every role', () => {
+    renderSite('/features')
+    for (const who of ['Engineering managers', 'Leaving engineer', 'Successor', 'HR', 'Workspace admins']) {
+      expect(screen.getByRole('heading', { level: 2, name: who })).toBeInTheDocument()
     }
   })
 })

@@ -90,6 +90,12 @@ export function HomePage() {
         <p className="mt-4 max-w-2xl text-[1.0625rem] text-muted">
           Five steps from resignation to a successor who can answer “how did Ravi handle this?” with a source.
         </p>
+        <SiteLink
+          href="/how-it-works"
+          className="mt-4 inline-block font-medium text-link underline-offset-4 hover:underline"
+        >
+          See the full workflow
+        </SiteLink>
         <ol className="mt-14 grid gap-10 md:grid-cols-5 md:gap-6">
           {STEPS.map(({ Icon, title, body }, i) => (
             <li key={title} className="flex flex-col gap-3">

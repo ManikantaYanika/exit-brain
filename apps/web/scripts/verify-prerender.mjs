@@ -18,6 +18,19 @@ need('index.html', home, /<meta property="og:title" content="[^"]+"/, 'no og:tit
 if (/fonts\.googleapis\.com|fonts\.gstatic\.com/.test(home))
   errors.push('index.html: still loads Google Fonts')
 
+for (const [file, h1] of [
+  ['how-it-works/index.html', 'How a handover works'],
+  ['features/index.html', 'Built for the people who carry a handover'],
+]) {
+  const html = read(file)
+  need(file, html, new RegExp(`<h1[^>]*>${h1}`), `H1 "${h1}" missing from static HTML`)
+  need(file, html, /<link rel="canonical" href="https?:\/\/[^"]+"/, 'no canonical')
+  need(file, html, /<meta property="og:title" content="[^"]+"/, 'no og:title')
+}
+for (const path of ['/how-it-works', '/features']) {
+  if (!read('sitemap.xml').includes(`${path}</loc>`)) errors.push(`sitemap.xml: ${path} missing`)
+}
+
 const notFound = read('404/index.html')
 need('404/index.html', notFound, /Page not found/, 'no "Page not found" text')
 need('404/index.html', notFound, /<meta name="robots" content="noindex"/, 'not noindex')
@@ -34,4 +47,6 @@ if (errors.length) {
   console.error(`prerender check FAILED (${errors.length}):\n- ${errors.join('\n- ')}`)
   process.exit(1)
 }
-console.log('prerender check passed: index.html, 404/index.html, sitemap.xml, __spa-fallback.html')
+console.log(
+  'prerender check passed: index.html, how-it-works, features, 404/index.html, sitemap.xml, __spa-fallback.html',
+)

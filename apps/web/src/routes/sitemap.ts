@@ -1,7 +1,7 @@
 import { SITE_URL } from './meta'
 
 // Resource route, prerendered to build/client/sitemap.xml at build time.
-const PATHS = ['/']
+const PATHS = ['/', '/how-it-works', '/features']
 
 export function loader() {
   const urls = PATHS.map((p) => `  <url><loc>${SITE_URL}${p}</loc></url>`).join('\n')

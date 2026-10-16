@@ -7,7 +7,11 @@ import { index, layout, prefix, route, type RouteConfig } from '@react-router/de
  * Keep in sync with src/app/routes.tsx (used by tests and the prototype) — routes.parity.test.ts checks this.
  */
 export default [
-  layout('routes/site-layout.tsx', [index('routes/home.tsx')]),
+  layout('routes/site-layout.tsx', [
+    index('routes/home.tsx'),
+    route('how-it-works', 'routes/how-it-works.tsx'),
+    route('features', 'routes/features.tsx'),
+  ]),
   route('sitemap.xml', 'routes/sitemap.ts'),
   route('robots.txt', 'routes/robots.ts'),
   layout('routes/auth-scope.tsx', [
