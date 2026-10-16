@@ -33,6 +33,9 @@ check() { # path expected-status [must-contain]
   else echo "ok   $1 -> $status"; fi
 }
 check /                               200 'When a senior engineer leaves'
+check /how-it-works                   200 'How a handover works'
+check /features                       200 'Built for the people who carry a handover'
+check /how-it-works/nope              404 'Page not found'
 check /sitemap.xml                    200 '<urlset'
 check /signin                         200 '__reactRouterContext'
 check /demo                           200 '__reactRouterContext'

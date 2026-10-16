@@ -72,3 +72,11 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Hero "knowledge circuit" from the logo with pause control, off-screen/hidden-tab pause and reduced-motion frame (CSS/SVG, no animation library).
 - Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
 - Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.
+
+## 2026-10-16 — W4: How it works and Features pages (PR pending review)
+
+- `/how-it-works`: five steps (who acts, what happens, what Exit Brain never does) with real product UI on MOCK DATA (5 labelled examples), the four verification statuses, and a 30-day timeline marked "an illustration, not a promise".
+- `/features`: capabilities by role with only two labels, "MVP scope" and "Later" (Slack/Jira/Drive and SSO/SCIM shown as Later).
+- Header/footer link to the new pages; home-section links work from any page (`/#trust`); current page marked with `aria-current`. Both pages prerendered, in the sitemap, checked by the prerender guard and the nginx test.
+- Owner inputs recorded in `website-copy.md` for W6/W7: public contact email, founder page placeholders (photo, title, bio, "why"; optional links, none invented; hidden until approved), and the three services.
+- Verified: lint, format, typecheck, **178/178 tests**, build + prerender guard, secret scan, nginx 13/13, prototype build, no overflow at 375/1280. Lighthouse lab (HTTP/2): How it works 97–98, Features 97–99, Home 97; a11y 100; CLS 0.

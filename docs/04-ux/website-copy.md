@@ -145,7 +145,7 @@ For each step: **What happens · Who acts · What they see (MOCK DATA image) · 
 | Data residency choice | Not started |
 ‹src: CHANGELOG Day 1, security §9›
 
-**Report a vulnerability** — Email [security contact — placeholder]. Please give us time to fix an issue before disclosing it.
+**Report a vulnerability** — Email yanikamanikanta@gmail.com (owner-confirmed public contact). Please give us time to fix an issue before disclosing it.
 
 ---
 
@@ -183,14 +183,19 @@ CTA: Book a pilot
 
 ## 7. Founder `/about/founder` (hidden until approved)
 
+> Owner input 16 Oct 2026. Page stays out of navigation and the sitemap until the owner approves the final text and photo.
+
 - H1: Manikanta Yanika
-- Role: Founder, Exit Brain *[confirm title]*
+- Role: *[placeholder — owner to confirm title]*
 - Bio: *[placeholder — owner to provide verified text]*
-- Why Exit Brain: *[placeholder — in the founder's words]*
-- Links: *[placeholder — only links the owner provides]*
-- Photo: none until provided; layout works without one.
+- Why I'm building Exit Brain: *[placeholder — in the founder's words]*
+- Contact: yanikamanikanta@gmail.com (owner-confirmed public contact email)
+- Links: LinkedIn and GitHub are **optional**; shown only if the owner provides the exact URLs. None are invented.
+- Photo: placeholder until the owner provides the photo; it will be used as supplied (cropping/compression only, no retouching or changes to appearance).
 
 ## 8. Services `/services`
+
+> Owner-approved list (16 Oct 2026). Proposed, founder-led services, separate from the software product.
 
 - H1: Services
 - Sub: Founder-led services that sit alongside the product. They are proposed and arranged case by case. The software is separate and doesn't require them.
@@ -198,7 +203,7 @@ CTA: Book a pilot
 1. **Pilot onboarding and setup** — Help installing the GitHub App, choosing repositories and running the first transition together.
 2. **Employee knowledge-handover facilitation** — Support for a manager running a critical handover: planning the interview, reviewing the handover draft.
 3. **Knowledge concentration review** — A review of selected repositories, based on authorised source evidence, showing where knowledge sits with one person. Not an assessment of individuals.
-- Small print: No outcomes are guaranteed. Scope, timing and price are agreed in writing first.
+- Small print: No customers, case studies or outcomes are implied. Scope, timing and price are agreed in writing first.
 - CTA: Talk to us
 
 ## 9. Contact `/contact`
@@ -207,7 +212,7 @@ CTA: Book a pilot
 - Sub: Ask about a pilot, a security question or anything else.
 - Fields: Topic (Pilot · Security question · Partnership · Other), Name, Work email, Company, Message.
 - Consent: "We use these details only to reply to you. See our Privacy notice (draft)."
-- Until W10: notice "This form isn't active yet. Please email [contact email — placeholder]." Submit disabled.
+- Until W10: notice "This form isn't active yet. Please email yanikamanikanta@gmail.com." Submit disabled. (Public contact email confirmed by the owner, 16 Oct 2026.)
 - No response-time promise.
 
 ## 10. Help `/help`
