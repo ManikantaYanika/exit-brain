@@ -1,3 +1,5 @@
+import { FOUNDER } from './content/company'
+
 /**
  * Website navigation (website-plan.md §4). Nothing links to a page that doesn't exist.
  * Hidden pages (the founder page, until FOUNDER.published) are never listed here.
@@ -31,6 +33,7 @@ export const FOOTER_NAV: { title: string; items: NavItem[] }[] = [
     title: 'Company',
     items: [
       { label: 'About', href: '/about' },
+      ...(FOUNDER.published ? [{ label: 'Founder', href: '/about/founder' }] : []),
       { label: 'Why Exit Brain', href: '/why-exit-brain' },
       { label: 'Services', href: '/services' },
       { label: 'Contact', href: '/contact' },
@@ -66,4 +69,5 @@ export const PUBLIC_PAGES = [
   '/help',
   '/privacy',
   '/terms',
+  ...(FOUNDER.published ? ['/about/founder'] : []),
 ]

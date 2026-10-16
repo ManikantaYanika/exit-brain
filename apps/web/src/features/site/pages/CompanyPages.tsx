@@ -87,6 +87,7 @@ export function FounderPage() {
               alt={`Photo of ${f.name}`}
               width={576}
               height={720}
+              fetchPriority="high"
               className="aspect-[4/5] w-full rounded-[20px] border border-line object-cover"
             />
           ) : (
@@ -104,6 +105,9 @@ export function FounderPage() {
           <div className="mt-3">
             {f.title ? <p className="text-lg text-muted">{f.title}</p> : <Placeholder what="title" />}
           </div>
+          <p className="mt-6 border-l-2 border-glow pl-4 text-[1.0625rem] text-ink">
+            Exit Brain: {f.tagline}
+          </p>
 
           <h2 className="mt-10 text-[1.4rem] font-semibold tracking-[-0.015em]">About</h2>
           <div className="mt-3 text-[1.0625rem] leading-[1.7] text-muted">

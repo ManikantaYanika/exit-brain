@@ -29,6 +29,7 @@ const PAGES = [
   ['help', 'Help centre'],
   ['privacy', 'Privacy notice'],
   ['terms', 'Terms of use'],
+  ['about/founder', 'Manikanta Yanika'],
 ]
 const sitemapXml = read('sitemap.xml')
 for (const [path, h1] of PAGES) {
@@ -51,16 +52,10 @@ need(
   'inactive notice missing',
 )
 
-// Hidden founder page: prerendered for owner preview, but noindex and never in the sitemap.
+// Founder page (published 16 Oct 2026): approved text and photo, no preview banner.
 const founder = read('about/founder/index.html')
-need(
-  'about/founder/index.html',
-  founder,
-  /<meta name="robots" content="noindex"/,
-  'founder preview not noindex',
-)
-need('about/founder/index.html', founder, /Preview, not published/, 'founder preview banner missing')
-if (sitemapXml.includes('/about/founder')) errors.push('sitemap.xml: lists the unpublished founder page')
+need('about/founder/index.html', founder, /<img[^>]+founder-manikanta-yanika\.webp/, 'founder photo missing')
+if (/Preview, not published|Placeholder:/.test(founder)) errors.push('about/founder: still a preview')
 
 const notFound = read('404/index.html')
 need('404/index.html', notFound, /Page not found/, 'no "Page not found" text')
@@ -79,5 +74,5 @@ if (errors.length) {
   process.exit(1)
 }
 console.log(
-  `prerender check passed: index.html, ${PAGES.map(([p]) => p).join(', ')}, about/founder (noindex), 404/index.html, sitemap.xml, __spa-fallback.html`,
+  `prerender check passed: index.html, ${PAGES.map(([p]) => p).join(', ')}, 404/index.html, sitemap.xml, __spa-fallback.html`,
 )

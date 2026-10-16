@@ -120,30 +120,37 @@ describe('company pages (W6)', () => {
     expect(screen.getAllByText(SERVICE_LABEL)).toHaveLength(3)
   })
 
-  it('founder page is a marked preview with placeholders, the public email, and no invented links', () => {
+  it('founder page shows the approved text, photo and only the links the founder gave', () => {
     renderSite('/about/founder')
-    expect(screen.getByRole('note')).toHaveTextContent(/Preview, not published/)
-    expect(screen.getByText(/Placeholder: title/)).toBeInTheDocument()
-    expect(screen.getByText(/Placeholder: a short bio/)).toBeInTheDocument()
-    expect(screen.getByText(/Placeholder: this section/)).toBeInTheDocument()
-    expect(screen.getByText('Photo to come')).toBeInTheDocument()
+    expect(screen.queryByRole('note')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Placeholder:/)).not.toBeInTheDocument()
+    expect(screen.getByText(FOUNDER.title!)).toBeInTheDocument()
+    expect(screen.getByText(FOUNDER.bio!)).toBeInTheDocument()
+    expect(screen.getByText(FOUNDER.why!)).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: `Photo of ${FOUNDER.name}` })).toHaveAttribute(
+      'src',
+      FOUNDER.photo,
+    )
     expect(screen.getByRole('link', { name: FOUNDER.email })).toHaveAttribute(
       'href',
       `mailto:${FOUNDER.email}`,
     )
-    expect(screen.queryByRole('link', { name: /LinkedIn|GitHub/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
+      'href',
+      'https://www.linkedin.com/in/manikanta-yanika/',
+    )
+    expect(screen.queryByRole('link', { name: 'GitHub' })).not.toBeInTheDocument()
   })
 
-  it('founder page stays hidden while unpublished: not in nav, footer, about page, sitemap; noindex', async () => {
-    expect(FOUNDER.published).toBe(false)
-    const hrefs = [...HEADER_NAV, ...FOOTER_NAV.flatMap((g) => g.items)].map((n) => n.href)
-    expect(hrefs).not.toContain('/about/founder')
-    expect(PUBLIC_PAGES).not.toContain('/about/founder')
+  it('published founder page is linked from About and the footer, in the sitemap, and indexable', async () => {
+    expect(FOUNDER.published).toBe(true)
+    expect(PUBLIC_PAGES).toContain('/about/founder')
+    expect(FOOTER_NAV.flatMap((g) => g.items).map((n) => n.href)).toContain('/about/founder')
     const xml = await sitemapLoader().text()
-    expect(xml).not.toContain('/about/founder')
-    expect(founderMeta()).toContainEqual({ name: 'robots', content: 'noindex' })
+    expect(xml.match(/\/about\/founder</g)).toHaveLength(1)
+    expect(founderMeta()).not.toContainEqual({ name: 'robots', content: 'noindex' })
     renderSite('/about')
-    expect(screen.queryByRole('link', { name: /founder/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Meet the founder' })).toHaveAttribute('href', '/about/founder')
   })
 
   it('sitemap lists every published page', async () => {

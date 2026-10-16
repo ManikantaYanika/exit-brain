@@ -36,15 +36,22 @@ export const WONT_BUILD = [
  * `null` fields render as clearly marked placeholders. Links render only when the owner provides exact URLs.
  * `photo`: path under /public, used as supplied (crop/compress only). `published` controls nav, sitemap and indexing.
  */
+// Text, photo and link supplied and approved by the founder, 16 Oct 2026. Photo: cropped and compressed only.
 export const FOUNDER = {
-  published: false,
+  published: true,
   name: 'Manikanta Yanika',
-  title: null as string | null,
-  bio: null as string | null,
-  why: null as string | null,
+  title: 'Founder & Builder, Exit Brain' as string | null,
+  bio: 'I’m Manikanta Yanika, a software developer and product builder with a background in computer science and hands-on experience building web applications, backend systems, and AI-powered solutions. I focus on turning real-world business problems into practical, secure, and scalable software products.' as
+    string | null,
+  why: 'When employees leave an organization, critical knowledge, technical decisions, and undocumented workflows often leave with them. I’m building Exit Brain to capture, structure, and preserve that knowledge, helping teams make smoother transitions through evidence-backed AI, reliable handovers, and contextual answers grounded in documented knowledge.' as
+    string | null,
+  tagline: 'Preserving organizational knowledge beyond employee departures.',
   email: 'yanikamanikanta@gmail.com',
-  photo: null as string | null,
-  links: [] as { label: 'LinkedIn' | 'GitHub'; href: string }[],
+  photo: '/images/founder-manikanta-yanika.webp' as string | null,
+  links: [{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/manikanta-yanika/' }] as {
+    label: 'LinkedIn' | 'GitHub'
+    href: string
+  }[],
 }
 
 export const SERVICES = [

@@ -8,7 +8,7 @@ export const meta = () =>
     ? pageMeta({
         path: '/about/founder',
         title: `${FOUNDER.name}, founder — Exit Brain`,
-        description: `${FOUNDER.name}, founder of Exit Brain.`,
+        description: `${FOUNDER.name}, founder and builder of Exit Brain: ${FOUNDER.tagline.toLowerCase()}`,
       })
     : appMeta(`${FOUNDER.name} (preview)`)
 

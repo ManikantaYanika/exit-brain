@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { searchSite } from './engine'
 import { buildSiteIndex } from './siteIndex'
+import { FOUNDER } from '../content/company'
 import { tokenize } from './search'
 
 /** W8 acceptance: the right page in the top 3 for at least 13 of 15 sample questions.
@@ -44,10 +45,14 @@ describe('site guide search', () => {
     expect(searchSite('github data security people').length).toBeLessThanOrEqual(3)
   })
 
-  it('only knows published pages (no hidden founder page)', () => {
+  it('indexes the founder page only when it is published, and has no empty entries', () => {
     const urls = buildSiteIndex().map((d) => d.url)
-    expect(urls.some((u) => u.startsWith('/about/founder'))).toBe(false)
+    expect(urls.includes('/about/founder')).toBe(FOUNDER.published)
     for (const d of buildSiteIndex()) expect(d.text.trim(), d.id).not.toBe('')
+  })
+
+  it('answers who is behind Exit Brain from the founder page', () => {
+    expect(searchSite('Who is the founder of Exit Brain?').map((r) => r.doc.url)).toContain('/about/founder')
   })
 
   it('normalises words so variants match', () => {
