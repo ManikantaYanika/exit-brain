@@ -73,6 +73,14 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
 - Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.
 
+## 2026-10-16 — Website: card and nav motion, expandable cards, Get started menu (PR pending review)
+
+- Owner request after review. Cards rise in as they scroll into view and lift on hover. Only cards that start off-screen are hidden, and only after hydration; nothing is hidden under reduced motion.
+- Home step, role and trust cards open on click to show more. The extra text comes only from approved copy on How it works, Features and Security. Cards follow the accordion pattern (`h3 > button[aria-expanded]`); the closed panel is `inert`.
+- Header: animated underline on hover and on the current page, and a shadow once the page scrolls. Sign in, Start a pilot and Explore the demo now sit in one "Get started" menu that opens on tap; Escape or an outside click closes it. The mobile menu is unchanged.
+- Feature data moved to `content/features.ts` (shared by Features, Home and the site guide).
+- Verified: lint, format, typecheck, **219/219 tests**, build + prerender guard, nginx 24/24, browser smoke + axe (0 serious/critical), prototype build. Lighthouse lab (HTTP/2): Home 95–97, Security 97–98, accessibility 100, CLS ≤ 0.0004.
+
 ## 2026-10-16 — Founder page published (PR pending review)
 
 - `/about/founder` uses the owner's approved title, bio, "why", tagline, LinkedIn link and photo. The photo was cropped to 4:5 and compressed to WebP (576×720, 85 KB, no metadata), with no retouching.

@@ -25,7 +25,7 @@ export function SecurityPage() {
 
       <div className={`${container} grid gap-x-16 gap-y-12 py-16 md:grid-cols-2 md:py-20`}>
         {SECURITY_TOPICS.map((t) => (
-          <section key={t.id} id={t.id} className="scroll-mt-24">
+          <section key={t.id} id={t.id} data-reveal className="scroll-mt-24">
             <h2 className="text-[1.4rem] leading-snug font-semibold tracking-[-0.015em]">{t.title}</h2>
             <div className="mt-3 flex flex-col gap-3 text-[1.0625rem] leading-[1.7] text-muted">
               {t.body.map((p) => (
@@ -52,7 +52,11 @@ export function SecurityPage() {
       >
         <ul className="grid gap-4 md:grid-cols-2">
           {RESPONSIBLE_USE.map((r) => (
-            <li key={r} className="flex items-start gap-3 rounded-[12px] border border-line bg-surface p-5">
+            <li
+              key={r}
+              data-reveal
+              className="eb-card flex items-start gap-3 rounded-[12px] border border-line bg-surface p-5"
+            >
               <ShieldCheck aria-hidden size={20} className="mt-0.5 shrink-0 text-brand" />
               <span className="text-[1.0625rem] leading-relaxed">{r}</span>
             </li>

@@ -2,13 +2,15 @@ import { Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
 import { Logo } from '../../design/primitives/Logo'
+import { GetStartedMenu } from './GetStartedMenu'
 import { openSiteGuide } from './guide/events'
 import { SiteGuide } from './guide/SiteGuide'
+import { useReveal } from './motion/useReveal'
 import { FOOTER_NAV, HEADER_NAV } from './nav'
 import { SiteLink } from './SiteLink'
 
 const navLink =
-  'rounded-control px-2.5 py-2 text-[0.94rem] text-muted transition-colors duration-150 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink'
+  'eb-navlink rounded-control px-2.5 py-2 text-[0.94rem] text-muted transition-colors duration-150 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink'
 const cta =
   'inline-flex h-10 items-center rounded-control bg-brand px-4 text-[0.94rem] font-medium text-on-brand transition-colors duration-150 hover:bg-brand-hover'
 
@@ -93,6 +95,14 @@ export function SiteLayout() {
   // The menu belongs to the page it was opened on, so navigating closes it.
   const [openOn, setOpenOn] = useState<string | null>(null)
   const open = openOn === pathname
+  const [scrolled, setScrolled] = useState(false)
+  useReveal(pathname)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <div className="eb-site flex min-h-screen flex-col bg-canvas text-ink">
@@ -102,7 +112,10 @@ export function SiteLayout() {
       >
         Skip to content
       </a>
-      <header className="sticky top-0 z-40 border-b border-line/80 bg-canvas/85 backdrop-blur-md supports-[not(backdrop-filter:blur(1px))]:bg-canvas">
+      <header
+        data-scrolled={scrolled}
+        className="eb-header sticky top-0 z-40 border-b border-line/80 bg-canvas/85 backdrop-blur-md supports-[not(backdrop-filter:blur(1px))]:bg-canvas"
+      >
         <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-6 px-4 sm:px-6">
           <Link to="/" viewTransition aria-label="Exit Brain home" className="shrink-0">
             <Logo size={30} />
@@ -115,12 +128,9 @@ export function SiteLayout() {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
-            <SiteLink href="/signin" className={`${navLink} hidden sm:inline-flex`}>
-              Sign in
-            </SiteLink>
-            <SiteLink href="/signup" className={`${cta} hidden sm:inline-flex`}>
-              Start a pilot
-            </SiteLink>
+            <div className="hidden sm:block">
+              <GetStartedMenu />
+            </div>
             <button
               type="button"
               aria-label="Open menu"

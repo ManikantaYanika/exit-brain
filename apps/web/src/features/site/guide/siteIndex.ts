@@ -8,7 +8,7 @@ import { FOUNDER, MISSION, PRINCIPLES, SERVICES, WONT_BUILD } from '../content/c
 import { HELP_SECTIONS } from '../content/help'
 import { RESPONSIBLE_USE, SECURITY_TOPICS, STATUS } from '../content/security'
 import { COMPARE_ROWS, PROTECTS } from '../content/why'
-import { FEATURE_GROUPS } from '../pages/FeaturesPage'
+import { FEATURE_GROUPS } from '../content/features'
 import { HOW_STEPS } from '../pages/howSteps'
 import type { Doc } from './search'
 

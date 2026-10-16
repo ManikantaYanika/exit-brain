@@ -207,6 +207,7 @@ export function HowItWorksPage() {
         {STEPS.map((s, i) => (
           <li
             key={s.title}
+            data-reveal
             className="grid gap-8 border-b border-line py-12 first:pt-0 last:border-b-0 lg:grid-cols-[1fr_1.05fr] lg:gap-16"
           >
             <div className="flex gap-5">

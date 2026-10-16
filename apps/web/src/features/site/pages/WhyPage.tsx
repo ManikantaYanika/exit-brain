@@ -129,7 +129,11 @@ export function WhyPage() {
       <Section id="protects" title="What it protects">
         <ul className="grid gap-5 sm:grid-cols-2">
           {PROTECTS.map((p) => (
-            <li key={p.title} className="rounded-[12px] border border-line bg-surface p-6">
+            <li
+              key={p.title}
+              data-reveal
+              className="eb-card rounded-[12px] border border-line bg-surface p-6"
+            >
               <h3 className="text-[1.125rem] font-semibold">{p.title}</h3>
               <p className="mt-2 leading-relaxed text-muted">{p.body}</p>
             </li>

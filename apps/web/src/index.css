@@ -256,3 +256,102 @@ h3 {
     animation: none;
   }
 }
+
+/* ---- Website: card and nav motion (transform/opacity/box-shadow only; off under reduced motion). ---- */
+/* Cards below the fold rise in once when they scroll into view. Content is visible without JS:
+   only elements that start off-screen get the pending state, and only after hydration. */
+@keyframes eb-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.eb-reveal-pending {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.eb-reveal-in {
+  animation: eb-reveal 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--eb-reveal-delay, 0ms);
+}
+.eb-card {
+  transition:
+    transform 200ms var(--ease-standard),
+    box-shadow 200ms var(--ease-standard),
+    border-color 200ms var(--ease-standard);
+}
+@media (hover: hover) {
+  .eb-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--eb-shadow);
+    border-color: var(--eb-line-strong);
+  }
+}
+/* Expandable card body: grid-row trick animates height without measuring. */
+.eb-expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 260ms var(--ease-standard);
+}
+.eb-expand[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.eb-expand > div {
+  overflow: hidden;
+}
+/* Header: link underline grows from the left; the bar gains a shadow once the page scrolls. */
+.eb-navlink {
+  position: relative;
+}
+.eb-navlink::after {
+  content: '';
+  position: absolute;
+  left: 0.625rem;
+  right: 0.625rem;
+  bottom: 0.25rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--eb-brand), var(--eb-brand-2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms var(--ease-standard);
+}
+.eb-navlink:hover::after,
+.eb-navlink[aria-current='page']::after {
+  transform: scaleX(1);
+}
+.eb-header {
+  transition:
+    box-shadow 200ms var(--ease-standard),
+    background-color 200ms var(--ease-standard);
+}
+.eb-header[data-scrolled='true'] {
+  box-shadow: 0 8px 24px -16px rgb(13 25 57 / 0.25);
+}
+@keyframes eb-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.eb-pop {
+  transform-origin: top right;
+  animation: eb-pop 180ms var(--ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .eb-reveal-pending {
+    opacity: 1;
+    transform: none;
+  }
+  .eb-card:hover {
+    transform: none;
+  }
+}
