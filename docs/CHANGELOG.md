@@ -73,6 +73,15 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
 - Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.
 
+## 2026-10-16 — W3, W5–W9: remaining website pages, site guide, quality pass (PR pending review)
+
+- New pages: `/security` (traced claims, honest status table), `/why-exit-brain` (category comparison, own-numbers worksheet), `/services` (3 owner-approved services, labelled proposed), `/about`, `/contact` (Zod validation, honeypot, consent line, **Send disabled** until W10), `/help` (searchable FAQ + FAQPage JSON-LD), `/privacy` and `/terms` (marked "Draft, pending legal review"), website 404.
+- `/about/founder`: preview only (noindex, not in nav or sitemap), placeholders for title/bio/"why", public email, photo placeholder, no invented links.
+- Site guide v1: BM25 over the site's own content, no AI, no network, nothing stored; loaded on open; 15/15 sample questions answered in the top 3.
+- Fixed: unknown URLs rendered the 404 page twice (also on `main`); axe scrollable-region issue on tables; visible style for the current header link.
+- Verified: lint, format, typecheck, **213/213 tests**, build + extended prerender guard, nginx 23/23, prototype build, bundle key grep, browser smoke + axe on 13 URLs × 2 widths (0 serious/critical). Lighthouse lab (HTTP/2): 96–99 performance, 100 accessibility on every page. Report: `docs/04-ux/website-w5-w9-report.md`.
+- Dev dependency: `axe-core` 4.13.0 (MPL-2.0, exact).
+
 ## 2026-10-16 — W4: How it works and Features pages (PR pending review)
 
 - `/how-it-works`: five steps (who acts, what happens, what Exit Brain never does) with real product UI on MOCK DATA (5 labelled examples), the four verification statuses, and a 30-day timeline marked "an illustration, not a promise".

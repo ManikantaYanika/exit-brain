@@ -1,6 +1,6 @@
 # Exit Brain — Website Copy Draft (v0.1, for review)
 
-> Status: **draft for owner review (W0).** Plain, professional English. Goes into `features/site/content/*.ts` after approval.
+> Status: **implemented** (W4–W8, 16 Oct 2026; copy lives in `apps/web/src/features/site/content/*.ts` and page files). Founder text/photo still pending. Originally: draft for owner review (W0). Plain, professional English. Goes into `features/site/content/*.ts` after approval.
 > Every claim is traceable: ‹src: …› marks where a statement comes from. Remove the markers when the copy is implemented; keep them in this file.
 > Product status, stated honestly on the site: **Exit Brain is in early development. Pilots are by invitation.** No feature is described as live unless it is built and tested. Feature status uses two labels only: **"MVP scope"** (being built for the pilot) and **"Later"**.
 > Words we don't use: revolutionary, world's first, guaranteed, 100%, monitor, track (people), productivity score, effortless, magic.
@@ -115,7 +115,7 @@ For each step: **What happens · Who acts · What they see (MOCK DATA image) · 
 
 **Access** — Exit Brain connects through a GitHub App with read-only permissions to the repositories you select: metadata, contents, pull requests and issues. GitHub issues it short-lived installation tokens that expire after one hour. Exit Brain can't push code, comment or change settings. ‹src: PRD NFR-02; GitHub Docs (installation tokens)›
 
-**What we store** — Excerpts only: commit messages, pull request and issue titles, shortened descriptions, file paths, timestamps and links. We don't store the contents of your files. ‹src: NFR-04, security §5.8›
+**What data we read and store** — Excerpts only: commit messages, pull request and issue titles, shortened descriptions, file paths, timestamps and links. We don't store the contents of your files. ‹src: NFR-04, security §5.8›
 
 **Isolation** — Every customer table is protected by row-level security in Postgres. Automated tests check that one organisation can't read another's data, and they run on every change. ‹src: NFR-01, CI database job›
 

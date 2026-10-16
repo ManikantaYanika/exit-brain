@@ -8,6 +8,13 @@ import { InterviewPage } from '../features/interview/InterviewPage'
 import { HomePage } from '../features/site/home/HomePage'
 import { FeaturesPage } from '../features/site/pages/FeaturesPage'
 import { HowItWorksPage } from '../features/site/pages/HowItWorksPage'
+import { ContactPage } from '../features/site/contact/ContactPage'
+import { AboutPage, FounderPage, ServicesPage } from '../features/site/pages/CompanyPages'
+import { HelpPage } from '../features/site/pages/HelpPage'
+import { PrivacyPage, TermsPage } from '../features/site/pages/LegalPages'
+import { SecurityPage } from '../features/site/pages/SecurityPage'
+import { SiteNotFoundPage } from '../features/site/pages/SiteNotFoundPage'
+import { WhyPage } from '../features/site/pages/WhyPage'
 import { SiteLayout } from '../features/site/SiteLayout'
 import { OnboardingPage } from '../features/onboarding/OnboardingPage'
 import { SuccessorPage } from '../features/successor/SuccessorPage'
@@ -36,6 +43,16 @@ export const routes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: 'how-it-works', element: <HowItWorksPage /> },
       { path: 'features', element: <FeaturesPage /> },
+      { path: 'security', element: <SecurityPage /> },
+      { path: 'why-exit-brain', element: <WhyPage /> },
+      { path: 'services', element: <ServicesPage /> },
+      { path: 'about', element: <AboutPage /> },
+      { path: 'about/founder', element: <FounderPage /> },
+      { path: 'contact', element: <ContactPage /> },
+      { path: 'help', element: <HelpPage /> },
+      { path: 'privacy', element: <PrivacyPage /> },
+      { path: 'terms', element: <TermsPage /> },
+      { path: '*', element: <SiteNotFoundPage /> },
     ],
   },
   { path: '/signin', element: <SignInPage /> },
@@ -107,5 +124,4 @@ export const routes: RouteObject[] = [
       { path: '*', element: <NotFound /> },
     ],
   },
-  { path: '*', element: <NotFound /> },
 ]

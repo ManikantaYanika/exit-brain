@@ -11,6 +11,18 @@ export default [
     index('routes/home.tsx'),
     route('how-it-works', 'routes/how-it-works.tsx'),
     route('features', 'routes/features.tsx'),
+    route('security', 'routes/security.tsx'),
+    route('why-exit-brain', 'routes/why-exit-brain.tsx'),
+    route('services', 'routes/services.tsx'),
+    route('about', 'routes/about.tsx'),
+    route('about/founder', 'routes/founder.tsx'),
+    route('contact', 'routes/contact.tsx'),
+    route('help', 'routes/help.tsx'),
+    route('privacy', 'routes/privacy.tsx'),
+    route('terms', 'routes/terms.tsx'),
+    // '/404' is prerendered through this splat route, so the 404 file hydrates as the same route
+    // that any unknown URL matches on the client (no hydration mismatch).
+    route('*', 'routes/site-not-found.tsx'),
   ]),
   route('sitemap.xml', 'routes/sitemap.ts'),
   route('robots.txt', 'routes/robots.ts'),
@@ -36,6 +48,4 @@ export default [
       ]),
     ]),
   ]),
-  route('404', 'routes/not-found.tsx', { id: 'not-found-page' }),
-  route('*', 'routes/not-found.tsx'),
 ] satisfies RouteConfig

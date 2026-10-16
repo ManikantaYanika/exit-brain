@@ -5,27 +5,13 @@ import { resolve } from 'node:path'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { afterEach, describe, expect, it } from 'vitest'
 import { KnowledgeCircuit } from './motion/KnowledgeCircuit'
-import { HomePage } from './home/HomePage'
-import { FEATURE_GROUPS, FeaturesPage } from './pages/FeaturesPage'
-import { HowItWorksPage } from './pages/HowItWorksPage'
-import { HEADER_NAV } from './nav'
-import { SiteLayout } from './SiteLayout'
+import { routes as runtimeRoutes } from '../../app/routes'
+import { FEATURE_GROUPS } from './pages/FeaturesPage'
+import { HEADER_NAV, PUBLIC_PAGES } from './nav'
 
 function renderSite(path = '/') {
-  const router = createMemoryRouter(
-    [
-      {
-        path: '/',
-        element: <SiteLayout />,
-        children: [
-          { index: true, element: <HomePage /> },
-          { path: 'how-it-works', element: <HowItWorksPage /> },
-          { path: 'features', element: <FeaturesPage /> },
-        ],
-      },
-    ],
-    { initialEntries: [path] },
-  )
+  // The website subtree of the real runtime routes (the product routes need auth providers).
+  const router = createMemoryRouter([runtimeRoutes[0]!], { initialEntries: [path] })
   render(<RouterProvider router={router} />)
 }
 
@@ -48,7 +34,7 @@ describe('website layout', () => {
     expect(hrefs).toEqual(HEADER_NAV.map((n) => (n.href.startsWith('/#') ? n.href.slice(1) : n.href)))
     for (const h of hrefs) {
       if (h.startsWith('#')) expect(document.querySelector(h), h).not.toBeNull()
-      else expect(['/how-it-works', '/features']).toContain(h)
+      else expect(PUBLIC_PAGES).toContain(h)
     }
   })
 
@@ -161,8 +147,8 @@ describe('how it works page', () => {
 
   it('section links on other pages go back to the home page', () => {
     renderSite('/how-it-works')
-    const nav = screen.getAllByRole('navigation', { name: 'Main' })[0]!
-    expect(within(nav).getByRole('link', { name: 'Security' })).toHaveAttribute('href', '/#trust')
+    const footer = screen.getByRole('navigation', { name: 'Product' })
+    expect(within(footer).getByRole('link', { name: 'Pricing' })).toHaveAttribute('href', '/#pricing')
   })
 })
 

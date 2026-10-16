@@ -126,3 +126,18 @@ export const FAQ = [
     a: 'Yes. Owners can disconnect GitHub and request deletion of everything ingested, and completed transitions are deleted after your retention period.',
   },
 ]
+
+/** Pricing copy (ux-plan §11). Shared by the home page and the site guide. */
+export const PRICING = {
+  title: 'One price per handover',
+  price: '$149 per departure',
+  body: 'You pay when someone leaves, not for seats. Managers, successors and HR are included.',
+  includes: [
+    'GitHub analysis of the leaving engineer’s work',
+    'Evidence-based interview with follow-ups',
+    'Verified handover with citations',
+    'Successor checklist and assistant',
+    'Unlimited managers, successors and HR viewers',
+  ],
+  note: 'Pilot pricing. Billing isn’t live yet, and nothing is charged without a signed agreement.',
+}

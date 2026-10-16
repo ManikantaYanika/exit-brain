@@ -2,11 +2,13 @@ import { Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
 import { Logo } from '../../design/primitives/Logo'
+import { openSiteGuide } from './guide/events'
+import { SiteGuide } from './guide/SiteGuide'
 import { FOOTER_NAV, HEADER_NAV } from './nav'
 import { SiteLink } from './SiteLink'
 
 const navLink =
-  'rounded-control px-3 py-2 text-[0.94rem] text-muted transition-colors duration-150 hover:text-ink'
+  'rounded-control px-2.5 py-2 text-[0.94rem] text-muted transition-colors duration-150 hover:text-ink aria-[current=page]:font-medium aria-[current=page]:text-ink'
 const cta =
   'inline-flex h-10 items-center rounded-control bg-brand px-4 text-[0.94rem] font-medium text-on-brand transition-colors duration-150 hover:bg-brand-hover'
 
@@ -34,7 +36,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   }, [onClose])
 
   return (
-    <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
       <button
         type="button"
         aria-label="Close menu"
@@ -105,7 +107,7 @@ export function SiteLayout() {
           <Link to="/" viewTransition aria-label="Exit Brain home" className="shrink-0">
             <Logo size={30} />
           </Link>
-          <nav aria-label="Main" className="hidden items-center md:flex">
+          <nav aria-label="Main" className="hidden items-center lg:flex">
             {HEADER_NAV.map((n) => (
               <SiteLink key={n.href} href={n.href} className={navLink}>
                 {n.label}
@@ -124,7 +126,7 @@ export function SiteLayout() {
               aria-label="Open menu"
               aria-expanded={open}
               onClick={() => setOpenOn(pathname)}
-              className="rounded-control p-2 text-ink md:hidden"
+              className="rounded-control p-2 text-ink lg:hidden"
             >
               <Menu aria-hidden size={22} />
             </button>
@@ -138,7 +140,7 @@ export function SiteLayout() {
       </main>
 
       <footer className="border-t border-line bg-band">
-        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 sm:px-6 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <Logo size={28} />
             <p className="mt-4 text-[0.94rem] leading-relaxed text-muted">
@@ -159,12 +161,26 @@ export function SiteLayout() {
                     </SiteLink>
                   </li>
                 ))}
+                {g.title === 'Help' && (
+                  <li>
+                    <button
+                      type="button"
+                      onClick={openSiteGuide}
+                      className="text-muted transition-colors hover:text-ink"
+                    >
+                      Site guide
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
           ))}
         </div>
-        <div className="mx-auto max-w-[1200px] px-4 pb-10 text-sm text-muted sm:px-6">© 2026 Exit Brain</div>
+        <div className="mx-auto max-w-[1200px] px-4 pb-24 text-sm text-muted sm:px-6 sm:pb-10">
+          © 2026 Exit Brain
+        </div>
       </footer>
+      <SiteGuide />
     </div>
   )
 }
