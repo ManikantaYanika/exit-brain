@@ -13,6 +13,15 @@ import type {
   Verification,
 } from './types'
 
+export interface NewTransitionInput {
+  employeeName: string
+  title: string
+  githubLogin: string
+  successorId: string | null
+  lastWorkingDay: string // ISO date
+  repos: string[]
+}
+
 export type ReviewDecision = 'confirm' | 'reject' | { edit: { title: string; summary: string } }
 
 export interface SubmitAnswerResult {
@@ -34,6 +43,8 @@ export interface ExitBrainApi {
   invite(input: { email: string; role: Person['role'] }): Promise<{ inviteUrl: string }>
 
   listTransitions(): Promise<Transition[]>
+  /** Starts a transition; GitHub ingestion of the selected repositories follows (read-only). */
+  createTransition(input: NewTransitionInput): Promise<Transition>
   getTransition(id: string): Promise<Transition>
   getProgress(id: string): Promise<TransitionProgress>
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { ReviewDecision } from './api'
+import type { NewTransitionInput, ReviewDecision } from './api'
 import { useApi } from './ApiProvider'
 
 export const keys = {
@@ -134,5 +134,14 @@ export function useEscalate(transitionId: string) {
   return useMutation({
     mutationFn: (question: string) => api.escalate(transitionId, question),
     onSuccess: () => invalidate(transitionId),
+  })
+}
+
+export function useCreateTransition() {
+  const api = useApi()
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (input: NewTransitionInput) => api.createTransition(input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: keys.transitions }),
   })
 }

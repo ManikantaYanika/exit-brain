@@ -73,6 +73,13 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
 - Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.
 
+## 2026-10-16 — Admin portal for owners and admins (PR pending review)
+
+- New `/app/admin` portal: Overview (workflow flowchart, attention list, live activity, New transition wizard), Knowledge risk, Jobs & health, People & roles, Security, Integrations (animated data-flow), Audit log (CSV export), Data & privacy (retention, deletion), Usage & billing (not live, stated), Settings. Ctrl/⌘+K search and a notification bell.
+- `AdminApi` contract + in-memory adapter with a live simulation (runs only while subscribed). `ExitBrainApi.createTransition` added.
+- Owners and admins now land on `/app/admin`; other roles get no admin links.
+- Verified: lint, format, typecheck, **249/249 tests** (29 new), build + prerender guard, nginx 24/24, website smoke + axe, prototype build. Real browser check on all 10 admin pages at 1440 and 390 px: no page errors, no horizontal scroll, 0 serious/critical axe violations. Doc: `docs/04-ux/admin-portal.md`.
+
 ## 2026-10-16 — Website: card and nav motion, expandable cards, Get started menu (PR pending review)
 
 - Owner request after review. Cards rise in as they scroll into view and lift on hover. Only cards that start off-screen are hidden, and only after hydration; nothing is hidden under reduced motion.

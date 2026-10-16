@@ -81,8 +81,8 @@ describe('auth portal', () => {
 })
 
 describe('role portals', () => {
-  const cases: [string, string, string][] = [
-    ['CTO, workspace owner', 'neha', 'Knowledge transitions'],
+  const cases: [string, string, string | RegExp][] = [
+    ['CTO, workspace owner', 'neha', /^Good (morning|afternoon|evening), Neha$/],
     ['Engineering Manager', 'priya', 'Knowledge transitions'],
     ['Leaving engineer', 'ravi', 'Your handover interview'],
     ['Successor', 'kiran', 'Your checklist appears when Priya approves the handover'],
@@ -99,8 +99,23 @@ describe('role portals', () => {
   it('each role sees only its own navigation', async () => {
     renderApp('/app', 'neha')
     const nav = await screen.findByRole('navigation', { name: 'Portal' })
-    expect(within(nav).getByRole('link', { name: 'Workspace setup' })).toBeInTheDocument()
+    for (const name of [
+      'Overview',
+      'People & roles',
+      'Integrations',
+      'Audit log',
+      'Data & privacy',
+      'Setup guide',
+    ])
+      expect(within(nav).getByRole('link', { name })).toBeInTheDocument()
+  })
+
+  it('managers get no admin portal links', async () => {
+    renderApp('/app', 'priya')
+    const nav = await screen.findByRole('navigation', { name: 'Portal' })
     expect(within(nav).getByRole('link', { name: 'Team' })).toBeInTheDocument()
+    for (const name of ['Overview', 'Audit log', 'Integrations'])
+      expect(within(nav).queryByRole('link', { name })).not.toBeInTheDocument()
   })
 
   it('the successor has no transitions or team links', async () => {
