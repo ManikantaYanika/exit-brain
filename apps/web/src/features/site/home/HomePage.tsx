@@ -1,5 +1,9 @@
 import { Check } from 'lucide-react'
+import { FEATURE_GROUPS } from '../content/features'
+import { RESPONSIBLE_USE, SECURITY_TOPICS } from '../content/security'
+import { ExpandCard } from '../ExpandCard'
 import { KnowledgeCircuit } from '../motion/KnowledgeCircuit'
+import { HOW_STEPS } from '../pages/howSteps'
 import { SiteLink } from '../SiteLink'
 import { FAQ, PRICING, ROLES, STEPS, TRUST } from './content'
 import { EvidenceTrace } from './EvidenceTrace'
@@ -9,6 +13,24 @@ const primary =
 const secondary =
   'inline-flex h-12 items-center rounded-control border border-line-strong bg-surface px-6 font-medium text-ink transition-colors duration-150 hover:bg-band'
 const wrap = 'mx-auto max-w-[1200px] px-4 sm:px-6'
+
+/** Home role card → its group on the Features page (more detail comes from approved copy only). */
+const ROLE_GROUP: Record<string, string> = {
+  'Engineering manager': 'Engineering managers',
+  'Leaving engineer': 'Leaving engineer',
+  Successor: 'Successor',
+  'CTO or workspace owner': 'Workspace admins',
+  HR: 'HR',
+}
+
+/** Home trust card → the Security page section that explains it (no id → responsible use). */
+const TRUST_TOPIC: Record<string, string> = {
+  'Read-only GitHub access': 'access',
+  'Excerpts, not source code': 'data',
+  'Each workspace is isolated': 'isolation',
+  'People approve, AI suggests': 'ai',
+  'Retention you set': 'retention',
+}
 
 export function HomePage() {
   return (
@@ -96,21 +118,27 @@ export function HomePage() {
         >
           See the full workflow
         </SiteLink>
-        <ol className="mt-14 grid gap-10 md:grid-cols-5 md:gap-6">
+        <ol className="mt-14 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {STEPS.map(({ Icon, title, body }, i) => (
-            <li key={title} className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-sm font-semibold text-surface tabular-nums">
+            <ExpandCard
+              key={title}
+              Icon={Icon}
+              badge={
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink text-sm font-semibold text-surface tabular-nums">
                   {i + 1}
                 </span>
-                {i < STEPS.length - 1 && (
-                  <span aria-hidden className="hidden h-px flex-1 bg-line-strong/60 md:block" />
-                )}
-              </div>
-              <Icon aria-hidden size={20} strokeWidth={1.75} className="mt-2 text-brand" />
-              <h3 className="text-[1.0625rem] font-semibold">{title}</h3>
-              <p className="text-[0.94rem] leading-relaxed text-muted">{body}</p>
-            </li>
+              }
+              title={title}
+              summary={body}
+              more={
+                <>
+                  <p className="font-medium text-ink">{HOW_STEPS[i]!.who}</p>
+                  <p className="mt-1">{HOW_STEPS[i]!.body}</p>
+                  <p className="mt-2 text-ink">{HOW_STEPS[i]!.never}</p>
+                </>
+              }
+              link={{ label: 'See this step', href: '/how-it-works' }}
+            />
           ))}
         </ol>
       </section>
@@ -148,16 +176,28 @@ export function HomePage() {
               See every portal with a fictional company
             </SiteLink>
           </div>
-          <ul className="grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
-            {ROLES.map(({ Icon, who, gets }) => (
-              <li key={who} className="flex gap-4 border-b border-line py-6">
-                <Icon aria-hidden size={20} strokeWidth={1.75} className="mt-1 shrink-0 text-brand" />
-                <div>
-                  <h3 className="font-semibold">{who}</h3>
-                  <p className="mt-1.5 text-[0.94rem] leading-relaxed text-muted">{gets}</p>
-                </div>
-              </li>
-            ))}
+          <ul className="grid items-start gap-4 sm:grid-cols-2">
+            {ROLES.map(({ Icon, who, gets }) => {
+              const group = FEATURE_GROUPS.find((g) => g.who === ROLE_GROUP[who])
+              return (
+                <ExpandCard
+                  key={who}
+                  Icon={Icon}
+                  title={who}
+                  summary={gets}
+                  more={
+                    <ul className="flex flex-col gap-2">
+                      {group?.features.map((f) => (
+                        <li key={f.name}>
+                          <span className="font-medium text-ink">{f.name}.</span> {f.detail}
+                        </li>
+                      ))}
+                    </ul>
+                  }
+                  link={{ label: 'All features by role', href: '/features' }}
+                />
+              )
+            })}
           </ul>
         </div>
       </section>
@@ -174,16 +214,28 @@ export function HomePage() {
               product is built on.
             </p>
           </div>
-          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            {TRUST.map(({ Icon, title, body }) => (
-              <li key={title} className="flex gap-3">
-                <Icon aria-hidden size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-spark" />
-                <div>
-                  <h3 className="font-semibold">{title}</h3>
-                  <p className="mt-1 text-[0.94rem] leading-relaxed text-on-ink-muted">{body}</p>
-                </div>
-              </li>
-            ))}
+          <ul className="grid items-start gap-4 sm:grid-cols-2">
+            {TRUST.map(({ Icon, title, body }) => {
+              const topic = SECURITY_TOPICS.find((t) => t.id === TRUST_TOPIC[title])
+              return (
+                <ExpandCard
+                  key={title}
+                  tone="dark"
+                  Icon={Icon}
+                  title={title}
+                  summary={body}
+                  more={(topic ? topic.body : RESPONSIBLE_USE).map((line) => (
+                    <p key={line} className="mt-2 first:mt-0">
+                      {line}
+                    </p>
+                  ))}
+                  link={{
+                    label: 'Read Security',
+                    href: topic ? `/security#${topic.id}` : '/security#responsible-use',
+                  }}
+                />
+              )
+            })}
           </ul>
         </div>
       </section>

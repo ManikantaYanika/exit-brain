@@ -6,7 +6,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router'
 import { afterEach, describe, expect, it } from 'vitest'
 import { KnowledgeCircuit } from './motion/KnowledgeCircuit'
 import { routes as runtimeRoutes } from '../../app/routes'
-import { FEATURE_GROUPS } from './pages/FeaturesPage'
+import { FEATURE_GROUPS } from './content/features'
 import { HEADER_NAV, PUBLIC_PAGES } from './nav'
 
 function renderSite(path = '/') {
@@ -174,5 +174,76 @@ describe('features page', () => {
     for (const who of ['Engineering managers', 'Leaving engineer', 'Successor', 'HR', 'Workspace admins']) {
       expect(screen.getByRole('heading', { level: 2, name: who })).toBeInTheDocument()
     }
+  })
+})
+
+describe('header get-started menu', () => {
+  it('opens on tap with pilot, sign-in and demo links; Escape closes and returns focus', async () => {
+    const user = userEvent.setup()
+    renderSite('/')
+    const button = screen.getByRole('button', { name: 'Get started' })
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+    await user.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    const panel = document.getElementById(button.getAttribute('aria-controls')!)!
+    expect(within(panel).getByRole('link', { name: /Start a pilot/ })).toHaveAttribute('href', '/signup')
+    expect(within(panel).getByRole('link', { name: /Sign in/ })).toHaveAttribute('href', '/signin')
+    expect(within(panel).getByRole('link', { name: /Explore the demo/ })).toHaveAttribute('href', '/demo')
+    await user.keyboard('{Escape}')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+    expect(button).toHaveFocus()
+  })
+
+  it('closes on an outside click', async () => {
+    const user = userEvent.setup()
+    renderSite('/')
+    const button = screen.getByRole('button', { name: 'Get started' })
+    await user.click(button)
+    await user.click(screen.getByRole('heading', { level: 1 }))
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+})
+
+describe('expandable home cards', () => {
+  it('open on click to show more approved detail, and close again', async () => {
+    const user = userEvent.setup()
+    renderSite('/')
+    const button = screen.getByRole('button', { name: 'Interview with evidence' })
+    const panel = document.getElementById(button.getAttribute('aria-controls')!)!
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+    expect(panel.firstElementChild).toHaveAttribute('inert')
+    await user.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(panel.firstElementChild).not.toHaveAttribute('inert')
+    expect(
+      within(panel).getByText('An answer is never shared before the engineer approves it.'),
+    ).toBeInTheDocument()
+    expect(within(panel).getByRole('link', { name: 'See this step' })).toHaveAttribute(
+      'href',
+      '/how-it-works',
+    )
+    await user.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('role and trust cards expand into the matching features and security detail', async () => {
+    const user = userEvent.setup()
+    renderSite('/')
+    await user.click(screen.getByRole('button', { name: 'HR' }))
+    expect(screen.getAllByText(/Status and progress/).length).toBeGreaterThan(1)
+    const trust = screen.getByRole('button', { name: 'Each workspace is isolated' })
+    await user.click(trust)
+    const panel = document.getElementById(trust.getAttribute('aria-controls')!)!
+    expect(within(panel).getByText(/row-level security in Postgres/)).toBeInTheDocument()
+    expect(within(panel).getByRole('link', { name: 'Read Security' })).toHaveAttribute(
+      'href',
+      '/security#isolation',
+    )
+  })
+
+  it('every expandable card heading keeps its h3', () => {
+    renderSite('/')
+    for (const name of ['Connect GitHub, read-only', 'Successor', 'Retention you set'])
+      expect(screen.getByRole('heading', { level: 3, name })).toBeInTheDocument()
   })
 })

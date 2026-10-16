@@ -20,7 +20,11 @@ export function AboutPage() {
       <Section id="principles" title="What we hold to">
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {PRINCIPLES.map((p) => (
-            <li key={p.title} className="rounded-[12px] border border-line bg-surface p-6">
+            <li
+              key={p.title}
+              data-reveal
+              className="eb-card rounded-[12px] border border-line bg-surface p-6"
+            >
               <h3 className="flex items-center gap-2 text-[1.0625rem] font-semibold">
                 <Check aria-hidden size={18} className="text-supported" /> {p.title}
               </h3>
@@ -159,7 +163,8 @@ export function ServicesPage() {
             <li
               key={s.id}
               id={s.id}
-              className="flex scroll-mt-24 flex-col rounded-[16px] border border-line bg-surface p-7"
+              data-reveal
+              className="eb-card flex scroll-mt-24 flex-col rounded-[16px] border border-line bg-surface p-7"
             >
               <span className="text-sm font-medium text-muted tabular-nums">0{i + 1}</span>
               <h2 className="mt-2 text-[1.3rem] leading-snug font-semibold tracking-[-0.015em]">{s.title}</h2>
