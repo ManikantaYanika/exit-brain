@@ -181,17 +181,18 @@ CTA: Book a pilot
 - Company status: Exit Brain is in early development. *[Legal entity, location — placeholder until owner confirms]*
 - Link: Meet the founder (shown only after approval)
 
-## 7. Founder `/about/founder` (hidden until approved)
+## 7. Founder `/about/founder` (published 16 Oct 2026)
 
-> Owner input 16 Oct 2026. Page stays out of navigation and the sitemap until the owner approves the final text and photo.
+> Text, photo and LinkedIn supplied by the owner on 16 Oct 2026. Photo used as supplied: cropped to 4:5 and compressed (WebP, 576×720, no metadata), no retouching.
 
 - H1: Manikanta Yanika
-- Role: *[placeholder — owner to confirm title]*
-- Bio: *[placeholder — owner to provide verified text]*
-- Why I'm building Exit Brain: *[placeholder — in the founder's words]*
-- Contact: yanikamanikanta@gmail.com (owner-confirmed public contact email)
-- Links: LinkedIn and GitHub are **optional**; shown only if the owner provides the exact URLs. None are invented.
-- Photo: placeholder until the owner provides the photo; it will be used as supplied (cropping/compression only, no retouching or changes to appearance).
+- Title: Founder & Builder, Exit Brain
+- Tagline: Exit Brain: Preserving organizational knowledge beyond employee departures.
+- Bio: I’m Manikanta Yanika, a software developer and product builder with a background in computer science and hands-on experience building web applications, backend systems, and AI-powered solutions. I focus on turning real-world business problems into practical, secure, and scalable software products.
+- Why I’m building Exit Brain: When employees leave an organization, critical knowledge, technical decisions, and undocumented workflows often leave with them. I’m building Exit Brain to capture, structure, and preserve that knowledge, helping teams make smoother transitions through evidence-backed AI, reliable handovers, and contextual answers grounded in documented knowledge.
+- Contact: yanikamanikanta@gmail.com
+- Links: LinkedIn https://www.linkedin.com/in/manikanta-yanika/ (owner-provided). No GitHub link given, so none shown.
+- Linked from About ("Meet the founder") and the footer; in the sitemap; indexable.
 
 ## 8. Services `/services`
 

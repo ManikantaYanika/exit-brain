@@ -1,10 +1,9 @@
-import { FOUNDER } from '../features/site/content/company'
 import { PUBLIC_PAGES } from '../features/site/nav'
 import { SITE_URL } from './meta'
 
 // Resource route, prerendered to build/client/sitemap.xml at build time.
-// Published pages only; the founder page is added when FOUNDER.published is true.
-const PATHS = FOUNDER.published ? [...PUBLIC_PAGES, '/about/founder'] : PUBLIC_PAGES
+// Published pages only (the founder page is listed once FOUNDER.published is true).
+const PATHS = PUBLIC_PAGES
 
 export function loader() {
   const urls = PATHS.map((p) => `  <url><loc>${SITE_URL}${p}</loc></url>`).join('\n')

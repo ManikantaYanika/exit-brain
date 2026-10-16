@@ -73,6 +73,12 @@ Only verified work is recorded here. Numbers are measured, never estimated.
 - Auth scoped to sign-in and app routes: live mode no longer downloads the Supabase client on website pages (0 vs 2 chunks, measured; CI check added).
 - Verified: 170/170 tests, lint/format/typecheck, build + prerender guard, nginx 10/10, prototype build, no overflow at 375/768/1280, product pages unchanged (27/28 identical, 1 known noise spot). Lighthouse (HTTP/2, lab) home 95–97. Report: `docs/04-ux/website-w2-report.md`.
 
+## 2026-10-16 — Founder page published (PR pending review)
+
+- `/about/founder` uses the owner's approved title, bio, "why", tagline, LinkedIn link and photo. The photo was cropped to 4:5 and compressed to WebP (576×720, 85 KB, no metadata), with no retouching.
+- Page is linked from About and the footer, listed in the sitemap, indexed, and answered by the site guide.
+- Verified: lint, format, typecheck, **214/214 tests**, build + prerender guard, nginx 24/24, browser smoke + axe (0 serious/critical), prototype build, bundle key grep.
+
 ## 2026-10-16 — W3, W5–W9: remaining website pages, site guide, quality pass (PR pending review)
 
 - New pages: `/security` (traced claims, honest status table), `/why-exit-brain` (category comparison, own-numbers worksheet), `/services` (3 owner-approved services, labelled proposed), `/about`, `/contact` (Zod validation, honeypot, consent line, **Send disabled** until W10), `/help` (searchable FAQ + FAQPage JSON-LD), `/privacy` and `/terms` (marked "Draft, pending legal review"), website 404.

@@ -85,7 +85,13 @@ export function buildSiteIndex(): Doc[] {
   add('About', '/about#wont-build', 'What we won’t build', WONT_BUILD.join('. '))
   for (const s of SERVICES)
     add('Services', `/services#${s.id}`, s.title, `${s.body} Proposed, founder-led service.`)
-  if (FOUNDER.published) add('Founder', '/about/founder', FOUNDER.name, FOUNDER.bio ?? '')
+  if (FOUNDER.published)
+    add(
+      'Founder',
+      '/about/founder',
+      `${FOUNDER.name}, founder of Exit Brain`,
+      [FOUNDER.title, FOUNDER.bio, FOUNDER.why].filter(Boolean).join(' '),
+    )
 
   // Help, contact, legal
   for (const s of HELP_SECTIONS) for (const i of s.items) add('Help', `/help#${i.id}`, i.q, i.a)
