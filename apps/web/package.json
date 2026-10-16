@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "preview": "vite preview",
     "build:prototype": "node scripts/build-prototype-artifact.mjs",
-    "verify:prerender": "node scripts/verify-prerender.mjs build/client"
+    "verify:prerender": "node scripts/verify-prerender.mjs build/client",
+    "test:site": "node e2e/site-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
@@ -36,6 +37,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "axe-core": "4.13.0",
     "jsdom": "^29.1.1",
     "oxlint": "^1.81.0",
     "playwright": "1.56.1",

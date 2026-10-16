@@ -4,6 +4,7 @@ import type { VerificationStatus } from '../../../data/types'
 import { DemoLabel } from '../../../design/primitives/Demo'
 import { RiskBars, VerificationBadge } from '../../../design/primitives/status'
 import { PageHeader } from '../PageHeader'
+import { HOW_STEPS } from './howSteps'
 import { SiteLink } from '../SiteLink'
 import { container, primaryButton, secondaryButton, sectionTitle } from '../styles'
 
@@ -166,49 +167,15 @@ function Handover() {
   )
 }
 
-const STEPS: {
-  title: string
-  who: string
-  body: string
-  never: string
-  artefact: ReactNode
-}[] = [
-  {
-    title: 'Connect GitHub, read-only',
-    who: 'Workspace admin',
-    body: 'An admin installs the Exit Brain GitHub App and selects the repositories it may read. It asks for metadata, contents, pull requests and issues, all read-only.',
-    never: 'Exit Brain never writes to your repositories.',
-    artefact: <GitHubAccess />,
-  },
-  {
-    title: 'Find what only one person knows',
-    who: 'Exit Brain suggests, the manager decides',
-    body: 'Exit Brain reads commit messages, pull request and issue titles and descriptions, and file paths. It suggests knowledge areas with the records behind each one. The manager confirms, edits or rejects them.',
-    never: 'A suggestion is never treated as fact before a person reviews it.',
-    artefact: <KnowledgeArea />,
-  },
-  {
-    title: 'Interview with evidence',
-    who: 'Leaving engineer',
-    body: 'The leaving engineer gets short questions tied to specific records, with “Why are we asking?” next to each one. When an answer is too general to hand over, a follow-up asks for the missing detail.',
-    never: 'An answer is never shared before the engineer approves it.',
-    artefact: <InterviewQuestion />,
-  },
-  {
-    title: 'Verify against the records',
-    who: 'Exit Brain checks, the manager resolves',
-    body: 'Each answer is compared with the records and given one of four statuses. Conflicts become open questions for the manager instead of disappearing into the document.',
-    never: 'A conflict is never hidden.',
-    artefact: <Verification />,
-  },
-  {
-    title: 'Approve and hand over',
-    who: 'Manager, then the successor',
-    body: 'The manager edits and approves the handover. The successor gets a checklist ordered by risk and an assistant that answers only from approved content, with sources. When the answer isn’t there, it says so and offers to ask the leaving engineer.',
-    never: 'The assistant never invents an answer.',
-    artefact: <Handover />,
-  },
+const ARTEFACTS: ReactNode[] = [
+  <GitHubAccess key="GitHubAccess" />,
+  <KnowledgeArea key="KnowledgeArea" />,
+  <InterviewQuestion key="InterviewQuestion" />,
+  <Verification key="Verification" />,
+  <Handover key="Handover" />,
 ]
+
+const STEPS = HOW_STEPS.map((s, i) => ({ ...s, artefact: ARTEFACTS[i] }))
 
 const TIMELINE = [
   { when: 'Day 1', what: 'Connect GitHub and start the transition' },

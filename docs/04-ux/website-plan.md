@@ -209,6 +209,8 @@ Each task = branch → PR to `main` → CI green → owner merges. "Done" means 
 | W9 | Quality pass | Playwright smoke per page + axe (0 serious/critical); Lighthouse per page recorded; responsive pass; shareable preview |
 | W10 ⛔ | Contact backend (needs Supabase project, email decision) | Security review passes; pgTAP + Deno tests green; delivery tested end-to-end before any "form works" claim |
 
+**Status (16 Oct 2026):** W0, W1b, W2, W4 merged. W3 and W5–W9 built together in one PR at the owner's request (W5/W8 gates taken at that PR review); report `website-w5-w9-report.md`. Open: founder text + photo, W10 (contact backend), legal review of Privacy/Terms, domain for `SITE_URL`.
+
 ## 11. Risks
 
 | Risk | Mitigation |

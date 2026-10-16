@@ -7,5 +7,21 @@ import type { Config } from '@react-router/dev/config'
 export default {
   appDirectory: 'src',
   ssr: false,
-  prerender: ['/', '/how-it-works', '/features', '/sitemap.xml', '/robots.txt', '/404'],
+  prerender: [
+    '/',
+    '/how-it-works',
+    '/features',
+    '/security',
+    '/why-exit-brain',
+    '/services',
+    '/about',
+    '/about/founder',
+    '/contact',
+    '/help',
+    '/privacy',
+    '/terms',
+    '/sitemap.xml',
+    '/robots.txt',
+    '/404',
+  ],
 } satisfies Config

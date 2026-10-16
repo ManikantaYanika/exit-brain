@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react'
 import { KnowledgeCircuit } from '../motion/KnowledgeCircuit'
 import { SiteLink } from '../SiteLink'
-import { FAQ, ROLES, STEPS, TRUST } from './content'
+import { FAQ, PRICING, ROLES, STEPS, TRUST } from './content'
 import { EvidenceTrace } from './EvidenceTrace'
 
 const primary =
@@ -193,11 +193,9 @@ export function HomePage() {
         <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
             <h2 className="text-[2.25rem] leading-tight font-semibold tracking-[-0.025em]">
-              One price per handover
+              {PRICING.title}
             </h2>
-            <p className="mt-4 max-w-md text-[1.0625rem] text-muted">
-              You pay when someone leaves, not for seats. Managers, successors and HR are included.
-            </p>
+            <p className="mt-4 max-w-md text-[1.0625rem] text-muted">{PRICING.body}</p>
           </div>
           <div className="rounded-[20px] border border-line bg-surface p-7 shadow-float">
             <p className="flex items-baseline gap-2">
@@ -207,13 +205,7 @@ export function HomePage() {
               <span className="text-muted">per departure</span>
             </p>
             <ul className="mt-6 flex flex-col gap-2.5 text-[0.94rem]">
-              {[
-                'GitHub analysis of the leaving engineer’s work',
-                'Evidence-based interview with follow-ups',
-                'Verified handover with citations',
-                'Successor checklist and assistant',
-                'Unlimited managers, successors and HR viewers',
-              ].map((t) => (
+              {PRICING.includes.map((t) => (
                 <li key={t} className="flex items-start gap-2">
                   <Check aria-hidden size={16} className="mt-1 shrink-0 text-supported" />
                   {t}
@@ -223,9 +215,7 @@ export function HomePage() {
             <SiteLink href="/signup" className={`${primary} mt-7 w-full justify-center`}>
               Start a pilot
             </SiteLink>
-            <p className="mt-3 text-sm text-muted">
-              Pilot pricing. Billing isn’t live yet, and nothing is charged without a signed agreement.
-            </p>
+            <p className="mt-3 text-sm text-muted">{PRICING.note}</p>
           </div>
         </div>
       </section>
