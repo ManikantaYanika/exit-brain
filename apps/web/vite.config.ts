@@ -21,6 +21,8 @@ function previewLikeNginx(): Plugin {
     configurePreviewServer(server) {
       const dir = resolve(server.config.root, 'build/client')
       server.middlewares.use((req, res, next) => {
+        // React Router's prerender step also runs a preview server during `build`; leave it alone.
+        if (process.env.IS_RR_BUILD_REQUEST === 'yes') return next()
         const [path = '/', query = ''] = (req.url ?? '/').split('?')
         const isPage = req.method === 'GET' && !/\.[a-z0-9]+$/i.test(path) && path !== '/'
         if (isPage) {
