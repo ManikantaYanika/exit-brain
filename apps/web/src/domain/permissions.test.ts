@@ -37,6 +37,8 @@ describe('permissions mirror the security role matrix', () => {
   })
 
   it('routes each role to its own home', () => {
+    expect(homePathFor('owner')).toBe('/app/admin')
+    expect(homePathFor('admin')).toBe('/app/admin')
     expect(homePathFor('manager')).toBe('/app/transitions')
     expect(homePathFor('employee', 't-1')).toBe('/app/interview/t-1')
     expect(homePathFor('successor', 't-1')).toBe('/app/onboarding/t-1')

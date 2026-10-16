@@ -19,6 +19,17 @@ import { SiteLayout } from '../features/site/SiteLayout'
 import { OnboardingPage } from '../features/onboarding/OnboardingPage'
 import { SuccessorPage } from '../features/successor/SuccessorPage'
 import { TeamPage } from '../features/team/TeamPage'
+import { AdminShell } from '../features/admin/AdminShell'
+import { AuditPage } from '../features/admin/AuditPage'
+import { BillingPage } from '../features/admin/BillingPage'
+import { DataPage } from '../features/admin/DataPage'
+import { IntegrationsPage } from '../features/admin/IntegrationsPage'
+import { KnowledgePage } from '../features/admin/KnowledgePage'
+import { OverviewPage } from '../features/admin/OverviewPage'
+import { PeoplePage } from '../features/admin/PeoplePage'
+import { SecurityPage as AdminSecurityPage } from '../features/admin/SecurityPage'
+import { SettingsPage } from '../features/admin/SettingsPage'
+import { SystemPage } from '../features/admin/SystemPage'
 import { AnswersTab } from '../features/transition/AnswersTab'
 import { HandoverTab } from '../features/transition/HandoverTab'
 import { KnowledgeReview } from '../features/transition/KnowledgeReview'
@@ -120,6 +131,26 @@ export const routes: RouteObject[] = [
             <TeamPage />
           </RoleGate>
         ),
+      },
+      {
+        path: 'admin',
+        element: (
+          <RoleGate allow={[...ADMINS]}>
+            <AdminShell />
+          </RoleGate>
+        ),
+        children: [
+          { index: true, element: <OverviewPage /> },
+          { path: 'people', element: <PeoplePage /> },
+          { path: 'knowledge', element: <KnowledgePage /> },
+          { path: 'system', element: <SystemPage /> },
+          { path: 'integrations', element: <IntegrationsPage /> },
+          { path: 'audit', element: <AuditPage /> },
+          { path: 'data', element: <DataPage /> },
+          { path: 'security', element: <AdminSecurityPage /> },
+          { path: 'billing', element: <BillingPage /> },
+          { path: 'settings', element: <SettingsPage /> },
+        ],
       },
       { path: '*', element: <NotFound /> },
     ],

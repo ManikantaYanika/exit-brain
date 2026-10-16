@@ -92,5 +92,6 @@ export function capabilitiesOf(role: Role): Capability[] {
 export function homePathFor(role: Role, transitionId?: string): string {
   if (role === 'employee') return transitionId ? `/app/interview/${transitionId}` : '/app'
   if (role === 'successor') return transitionId ? `/app/onboarding/${transitionId}` : '/app'
+  if (role === 'owner' || role === 'admin') return '/app/admin'
   return '/app/transitions'
 }

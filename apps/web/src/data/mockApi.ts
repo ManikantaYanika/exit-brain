@@ -118,6 +118,43 @@ export function createMockApi(latencyMs = 250): ExitBrainApi & { reset(): void }
       wait({ inviteUrl: `https://app.exitbrain.dev/invite/accept#token=mock-${btoa(email).slice(0, 12)}` }),
 
     listTransitions: () => wait(s.transitions),
+    createTransition: (input) => {
+      const name = input.employeeName.trim()
+      if (!name) return fail('Enter the name of the person leaving.')
+      if (!/^[a-z\d](?:[a-z\d-]{0,38})$/i.test(input.githubLogin.trim()))
+        return fail('Enter their GitHub username, for example ravi-k.')
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(input.lastWorkingDay)) return fail('Choose their last working day.')
+      if (input.lastWorkingDay < new Date().toISOString().slice(0, 10))
+        return fail('The last working day can’t be in the past.')
+      if (!input.repos.length) return fail('Choose at least one repository to read.')
+      if (
+        s.transitions.some(
+          (t) => t.employee.name.toLowerCase() === name.toLowerCase() && t.status !== 'completed',
+        )
+      )
+        return fail(`${name} already has an open transition.`)
+      const successor = input.successorId ? s.people.find((p) => p.id === input.successorId) : null
+      const slug = name
+        .toLowerCase()
+        .replace(/[^a-z]+/g, '-')
+        .replace(/^-|-$/g, '')
+      const t: Transition = {
+        id: `t-${slug}-${s.transitions.length + 1}`,
+        employee: {
+          id: `e-${slug}`,
+          name,
+          githubLogin: input.githubLogin.trim(),
+          title: input.title.trim() || 'Engineer',
+        },
+        successor: successor ? { id: successor.id, name: successor.name } : null,
+        lastWorkingDay: input.lastWorkingDay,
+        status: 'ingesting',
+        repos: [...input.repos],
+        evidenceCount: 0,
+      }
+      s.transitions.push(t)
+      return wait(t)
+    },
     getTransition: (id) => {
       const t = findTransition(id)
       return t ? wait(t) : fail('Transition not found')

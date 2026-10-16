@@ -86,3 +86,40 @@ describe('mock ExitBrainApi', () => {
     expect((await api.getTransition('t-ravi')).status).toBe('completed')
   })
 })
+
+describe('createTransition', () => {
+  const later = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
+  const base = {
+    employeeName: 'Lena Fischer',
+    title: '',
+    githubLogin: 'lena-f',
+    successorId: null,
+    lastWorkingDay: later,
+    repos: ['acme/infra'],
+  }
+
+  it('validates the input before starting', async () => {
+    const api = createMockApi(0)
+    await expect(api.createTransition({ ...base, employeeName: ' ' })).rejects.toThrow('name')
+    await expect(api.createTransition({ ...base, githubLogin: 'bad login!' })).rejects.toThrow(
+      'GitHub username',
+    )
+    await expect(api.createTransition({ ...base, lastWorkingDay: '2020-01-01' })).rejects.toThrow('past')
+    await expect(api.createTransition({ ...base, repos: [] })).rejects.toThrow('repository')
+    await expect(api.createTransition({ ...base, employeeName: 'Ravi Kumar' })).rejects.toThrow(
+      'already has an open transition',
+    )
+  })
+
+  it('starts a read-only ingestion transition', async () => {
+    const api = createMockApi(0)
+    const t = await api.createTransition({ ...base, successorId: 'u-kiran' })
+    expect(t).toMatchObject({
+      status: 'ingesting',
+      evidenceCount: 0,
+      successor: { name: 'Kiran Rao' },
+      repos: ['acme/infra'],
+    })
+    expect((await api.listTransitions()).map((x) => x.id)).toContain(t.id)
+  })
+})

@@ -1,11 +1,20 @@
 import {
+  Activity,
+  CreditCard,
+  Database,
   FlaskConical,
+  Gauge,
+  Webhook,
+  LayoutDashboard,
   LayoutList,
   ListChecks,
   LogOut,
   Menu,
   MessageSquareText,
-  Settings2,
+  Radar,
+  ScrollText,
+  Settings,
+  ShieldCheck,
   Users,
   X,
 } from 'lucide-react'
@@ -24,6 +33,8 @@ interface NavItem {
   label: string
   Icon: ComponentType<{ size?: number; 'aria-hidden'?: boolean; strokeWidth?: number }>
   end?: boolean
+  /** Section heading shown above the first item of a group (admin portal). */
+  group?: string
 }
 
 function navFor(role: Role, transitionId: string | null): NavItem[] {
@@ -32,7 +43,21 @@ function navFor(role: Role, transitionId: string | null): NavItem[] {
   switch (role) {
     case 'owner':
     case 'admin':
-      return [transitions, team, { to: '/app/setup', label: 'Workspace setup', Icon: Settings2 }]
+      // The admin portal (owner/admin): grouped like an operations console.
+      return [
+        { to: '/app/admin', label: 'Overview', Icon: LayoutDashboard, end: true },
+        { ...transitions, group: 'Operate' },
+        { to: '/app/admin/knowledge', label: 'Knowledge risk', Icon: Radar },
+        { to: '/app/admin/system', label: 'Jobs & health', Icon: Activity },
+        { to: '/app/admin/people', label: 'People & roles', Icon: Users, group: 'Access' },
+        { to: '/app/admin/security', label: 'Security', Icon: ShieldCheck },
+        { to: '/app/admin/integrations', label: 'Integrations', Icon: Webhook },
+        { to: '/app/admin/audit', label: 'Audit log', Icon: ScrollText, group: 'Govern' },
+        { to: '/app/admin/data', label: 'Data & privacy', Icon: Database },
+        { to: '/app/admin/billing', label: 'Usage & billing', Icon: CreditCard, group: 'Workspace' },
+        { to: '/app/admin/settings', label: 'Settings', Icon: Settings },
+        { to: '/app/setup', label: 'Setup guide', Icon: Gauge },
+      ]
     case 'manager':
       return [transitions, team]
     case 'employee':
@@ -107,7 +132,15 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       <nav aria-label="Portal" className="flex flex-col gap-0.5">
-        {items.map(({ to, label, Icon, end }) => (
+        {items.map(({ to, label, Icon, end, group }) => [
+          group && (
+            <p
+              key={`${to}-g`}
+              className="mt-4 mb-1 px-2.5 text-[11px] font-semibold tracking-wide text-muted uppercase"
+            >
+              {group}
+            </p>
+          ),
           <NavLink
             key={to}
             to={to}
@@ -123,8 +156,8 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           >
             <Icon aria-hidden size={17} strokeWidth={1.75} />
             {label}
-          </NavLink>
-        ))}
+          </NavLink>,
+        ])}
       </nav>
 
       <div className="mt-auto flex flex-col gap-3 border-t border-line px-2 pt-4">
@@ -204,7 +237,10 @@ export function AppLayout() {
             </div>
           )}
 
-          <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-10">
+          <main
+            id="main"
+            className={`mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-10 ${pathname.startsWith('/app/admin') ? 'max-w-7xl' : 'max-w-6xl'}`}
+          >
             <Outlet />
           </main>
         </div>
