@@ -2,6 +2,12 @@
 
 Only verified work is recorded here. Numbers are measured, never estimated.
 
+## 2026-10-17 — Fix: website not interactive in local dev / preview
+
+- **Dev (`npm run dev`):** on a fresh Vite cache the first page load discovered `lucide-react` and `@tanstack/react-query`, re-optimized ("504 Outdated Optimize Dep") and the client entry failed to load, so the prerendered page never hydrated: cards did not open, the Get started menu did nothing. Fix: `optimizeDeps.include` in `apps/web/vite.config.ts`. Verified in Chromium on a cleared cache: before 0/16 cards opened + page error; after 16/16 cards open, Get started opens, 0 errors (1440 and 390 px).
+- **Preview (`npm run preview`):** every direct URL got the home page HTML, so pages rendered twice (2 H1s). A preview-only middleware now routes like `deploy/nginx/exit-brain.conf` (prerendered page, SPA fallback for app routes, real 404). Verified: `site-smoke` against preview: all site checks passed. Production nginx unaffected (`test-nginx.sh` passes; smoke against real nginx config passes).
+- Checks: lint, format, typecheck, `vitest` 249/249, build + prerender guard.
+
 ## 2026-10-15 — Day 1 (in progress)
 
 - Repo skeleton, `.gitignore`, `.env.example`, docs (PRD, roadmap, database schema, security & privacy).
