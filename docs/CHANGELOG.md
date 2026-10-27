@@ -2,6 +2,18 @@
 
 Only verified work is recorded here. Numbers are measured, never estimated.
 
+## 2026-10-27 — Day 1 close-out on Supabase cloud (in progress)
+
+- Created dev project `exit-brain-dev` (ref `qzfspoqprrtdldlcufvd`, ap-south-1 Mumbai, free plan, Postgres 17).
+- Applied the 4 repo migrations; aligned `supabase_migrations.schema_migrations` versions with the repo file names (`20261015000001`–`…04`) so `supabase db push` sees them as applied.
+- Security Advisor: no RLS / ERROR findings. 3 WARN `authenticated_security_definer_function_executable` on `create_organization`, `accept_invitation`, `create_invitation`: intended (atomic RPCs called with the user's JWT; each checks `auth.uid()` and role inside). Performance Advisor: 13 INFO "unused index" on an empty database.
+- pgTAP on the cloud database (via `scripts/cloud/pgtap-to-do-block.py`, one rollback-only statement per file):
+  - `rls_core.test.sql` **44/44 passed**, `rpc_invitations.test.sql` **9/9 passed**.
+  - Harness control: a deliberate `is(1, 2)` reported `failed=1`.
+  - After the runs: 0 auth users, 0 profiles, 0 orgs, 0 audit rows, no `pgtap` extension, no `tests` schema.
+- Edge Functions deployed (v1, `verify_jwt` on): `api-create-org`, `api-invite`, `api-accept-invite`. Probes from outside: no JWT → 401; anon REST read of `organizations` → 42501.
+- Pending (needs owner action): `APP_ORIGIN` secret (functions currently fail at boot without it); Auth Site URL / redirect URLs; `audit_triggers.test.sql` (9) on cloud (its DELETEs need an approval in the SQL tool); live signup → org → invite → accept in the browser.
+
 ## 2026-10-17 — Fix: website not interactive in local dev / preview
 
 - **Dev (`npm run dev`):** on a fresh Vite cache the first page load discovered `lucide-react` and `@tanstack/react-query`, re-optimized ("504 Outdated Optimize Dep") and the client entry failed to load, so the prerendered page never hydrated: cards did not open, the Get started menu did nothing. Fix: `optimizeDeps.include` in `apps/web/vite.config.ts`. Verified in Chromium on a cleared cache: before 0/16 cards opened + page error; after 16/16 cards open, Get started opens, 0 errors (1440 and 390 px).
